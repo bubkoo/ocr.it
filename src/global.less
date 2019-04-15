@@ -1,0 +1,85 @@
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  --body-background-color: #ececec;
+  --toolbar-background-color: #F3F5F6;
+  --resolution-badge-background-color: #DBDBDB;
+  --toolbar-border-color: #CCCCCC;
+
+  --primary-text-color: #212121;
+  --secondary-text-color: #757575;
+  --primary-header-color: #212121;
+
+  --primary-icon-color: #808080;
+  --active-icon-color: #4396EC;
+  --feedback-icon-color: #212121;
+
+  --disabled-button-color: rgba(0,0,0,0.26);
+  --disabled-button-background: rgba(0,0,0,0.12);
+  --input-background-color: #fff;
+
+  --image-editor-layer-shadow: 0 4px 6px 0 rgba(86,83,83,0.25);
+  --preferences-tab-background-color: #E0E0E0;
+
+}
+
+html[data-theme="dark"] {
+  --body-background-color: #282E33;
+  --toolbar-background-color: #3A4047;
+  --resolution-badge-background-color: #282E33;
+  --toolbar-border-color: #6f6f6f;
+
+  --primary-text-color: #d4d4d4;
+  --secondary-text-color: #d4d4d4;
+  --primary-header-color: #fff;
+
+  --primary-icon-color: #d4d4d4;
+  --active-icon-color: #4396EC;
+  --feedback-icon-color: #fff;
+
+  --disabled-button-color: rgba(255,255,255,0.35);
+  --disabled-button-background: rgba(255,255,255,0.2);
+  --input-background-color: var(--toolbar-background-color);
+
+  --image-editor-layer-shadow: 0 4px 6px 0 rgba(21,21,21,0.25);
+  --preferences-tab-background-color: var(--body-background-color);
+}
+
+body {
+  font: 14px/16px Arial;
+  color: var(--primary-text-color);
+  background: var(--body-background-color);
+  cursor: default;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.clearfix:after {
+  content: " ";
+  display: table;
+  clear: both;
+}

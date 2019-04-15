@@ -1,2 +1,3 @@
 # ocr.it
-A tool to recognize text from any image.
+
+> A tool to recognize text from any image.

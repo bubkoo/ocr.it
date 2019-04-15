@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "outDir": "./dist",
+    "lib": [
+      "es5",
+      "dom",
+      "es2015"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
