@@ -5,7 +5,6 @@ const baseConfig = require('./webpack.config.base');
 const htmlplugins = require('./webpack.config.htmlplugin');
 
 const port = process.env.PORT || 3000;
-const isDevelopment = process.env.NODE_ENV === 'development';
 const config = {
   devtool: 'inline-source-map',
   target: 'electron-renderer',
@@ -42,9 +41,17 @@ const config = {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      minify: true,
+      template: './src/template.ejs',
+      filename: 'result/index.html',
+      title: 'Recognition Result',
+      view: 'result',
+    }),
   ],
 };
 
 htmlplugins.forEach(plugin => { config.plugins.push(plugin) })
 
-module.exports = merge(baseConfig);
+module.exports = merge(baseConfig, config);

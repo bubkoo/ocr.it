@@ -1,0 +1,58 @@
+.result-wrap {
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.result-image {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  border-right: 1px solid #ccc;
+
+  .result-image-inner {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    padding: 16px;
+  }
+
+  img {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.result-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+
+
+  textarea {
+    font-size: 13px;
+    flex: 1;
+    padding: 8px;
+    resize: none;
+    border: 0;
+    outline: none;
+    background: transparent;
+  }
+}
+
+.result-options {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 32px;
+  padding: 4px;
+
+  .icon {
+    font-size: 16px;
+    padding: 4px;
+    cursor: pointer;
+  }
+}

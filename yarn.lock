@@ -50,6 +50,20 @@
   dependencies:
     "@types/node" "*"
 
+"@types/image-size@^0.7.0":
+  version "0.7.0"
+  resolved "http://registry.npm.taobao.org/@types/image-size/download/@types/image-size-0.7.0.tgz#a785302cdaedad7dfd985c5f2f6f721467b95de9"
+  integrity sha1-p4UwLNrtrX39mFxfL29yFGe5Xek=
+  dependencies:
+    "@types/node" "*"
+
+"@types/lodash.clamp@^4.0.6":
+  version "4.0.6"
+  resolved "http://registry.npm.taobao.org/@types/lodash.clamp/download/@types/lodash.clamp-4.0.6.tgz#ca51ac61e11c6c6109638f44179abb97031619cb"
+  integrity sha1-ylGsYeEcbGEJY49EF5q7lwMWGcs=
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.get@^4.4.6":
   version "4.4.6"
   resolved "http://registry.npm.taobao.org/@types/lodash.get/download/@types/lodash.get-4.4.6.tgz#0c7ac56243dae0f9f09ab6f75b29471e2e777240"
@@ -2655,6 +2669,11 @@ ignore-walk@^3.0.1:
   dependencies:
     minimatch "^3.0.4"
 
+image-size@^0.7.3:
+  version "0.7.3"
+  resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.7.3.tgz#dd73b4a06171c7898bff6cef27cd3fe1cc4fe117"
+  integrity sha1-3XO0oGFxx4mL/2zvJ80/4cxP4Rc=
+
 image-size@~0.5.0:
   version "0.5.5"
   resolved "http://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
@@ -3247,6 +3266,11 @@ locate-path@^3.0.0:
   dependencies:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
+
+lodash.clamp@^4.0.3:
+  version "4.0.3"
+  resolved "http://registry.npm.taobao.org/lodash.clamp/download/lodash.clamp-4.0.3.tgz#5c24bedeeeef0753560dc2b4cb4671f90a6ddfaa"
+  integrity sha1-XCS+3u7vB1NWDcK0y0Zx+Qpt36o=
 
 lodash.get@^4.0.0, lodash.get@^4.4.2:
   version "4.4.2"

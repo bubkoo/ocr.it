@@ -2,6 +2,7 @@ import { app, globalShortcut } from 'electron'
 import { createTray } from './tray'
 import { delLastRecognitionResult } from './persists'
 import './result/main'
+import './preferences/main'
 
 if (process.env.NODE_ENV === 'development') {
   // https://github.com/sindresorhus/electron-debug
