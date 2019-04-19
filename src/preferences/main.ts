@@ -8,6 +8,7 @@ import {
 } from '../actions'
 
 let window: BrowserWindow
+let quiting = false
 
 function createWindow() {
   window = new BrowserWindow({
@@ -39,8 +40,10 @@ function createWindow() {
   })
 
   window.on('close', (event) => {
-    event.preventDefault()
-    window.hide()
+    if (!quiting) {
+      event.preventDefault()
+      window.hide()
+    }
   })
 }
 
@@ -51,6 +54,13 @@ function showWindow() {
   window.show()
   window.focus()
 }
+
+app.on('before-quit', () => {
+  if (window) {
+    quiting = true
+    window.close()
+  }
+})
 
 ipcMain.on(SHOW_PREFERENCES_WINDOW, () => {
   showWindow()

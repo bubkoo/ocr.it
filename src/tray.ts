@@ -102,7 +102,11 @@ module Private {
         },
       },
       { type: 'separator' },
-      { label: 'Quit', role: 'quit', accelerator: 'Cmd+Q' },
+      {
+        label: 'Quit',
+        role: 'quit',
+        accelerator: 'Cmd+Q',
+      },
     )
 
     return Menu.buildFromTemplate(items)

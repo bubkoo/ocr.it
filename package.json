@@ -16,7 +16,7 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development yarn run clean && yarn run build-main-dev && electron ./dist/main.js",
     "postinstall": "yarn run build",
     "dev": "yarn run hot-server --start-hot",
-    "pack": "rimraf ./build && build",
+    "pack": "rimraf ./build && build --publish never",
     "package": "yarn run build && yarn run pack"
   },
   "build": {
@@ -33,22 +33,23 @@
     },
     "dmg": {
       "background": "assets/build/background.png",
+      "iconSize": 96,
       "window": {
-        "x": 100,
-        "y": 100,
-        "width": 300,
-        "height": 200
+        "x": 160,
+        "y": 160,
+        "width": 600,
+        "height": 400
       },
       "contents": [
         {
-          "x": 280,
-          "y": 150,
+          "x": 360,
+          "y": 170,
           "type": "link",
           "path": "/Applications"
         },
         {
-          "x": 130,
-          "y": 150,
+          "x": 120,
+          "y": 170,
           "type": "file"
         }
       ]

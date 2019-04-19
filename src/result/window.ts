@@ -1,5 +1,5 @@
 import clamp from 'lodash.clamp'
-import { ipcMain, screen, BrowserWindow } from 'electron'
+import { app, ipcMain, screen, BrowserWindow } from 'electron'
 import { getTray } from '../tray'
 import { getHtmlPath, getImageSize } from '../utils'
 import {
@@ -106,6 +106,12 @@ function showWindow() {
   window.show()
   window.focus()
 }
+
+app.on('before-quit', () => {
+  if (window) {
+    window.close()
+  }
+})
 
 ipcMain.on(SHOW_RESULT_WINDOW, () => {
   showWindow()
