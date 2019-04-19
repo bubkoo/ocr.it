@@ -55,6 +55,8 @@ function showAndFocus() {
 function showWindow() {
   if (!window) {
     createWindow()
+    // tslint:disable-next-line
+    // https://github.com/electron/electron/blob/master/docs/api/browser-window.md#showing-window-gracefully
     window!.once('ready-to-show', showAndFocus)
   } else {
     showAndFocus()
