@@ -9,7 +9,8 @@
 
 ## TODO
 
--[ ] Progress in tray
+- [ ] Show Recognize progress in tray.
+- [ ] Check draging files' type when drag-over tray.
 
 ## Contributing
 
