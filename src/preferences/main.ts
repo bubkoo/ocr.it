@@ -47,12 +47,18 @@ function createWindow() {
   })
 }
 
+function showAndFocus() {
+  window.show()
+  window.focus()
+}
+
 function showWindow() {
   if (!window) {
     createWindow()
+    window!.once('ready-to-show', showAndFocus)
+  } else {
+    showAndFocus()
   }
-  window.show()
-  window.focus()
 }
 
 app.on('before-quit', () => {
