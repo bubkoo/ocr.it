@@ -1,0 +1,103 @@
+.wrap {
+  position: relative;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  line-height: 24px;
+  height: 24px;
+  cursor: default;
+  text-align: center;
+  color: var(--title-text-color);
+}
+
+.navbar {
+  height: 78px;
+  padding: 23px 8px 0 8px;
+  user-select: none;
+  border-bottom: 1px solid var(--titlebar-border-color);
+  background: linear-gradient(180deg, var(--titlebar-bg-color-start) 0%, var(--titlebar-bg-color-stop) 100%);
+
+  -webkit-app-region: drag;
+}
+
+.navbar-item {
+  float: left;
+  height: 54px;
+  padding: 2px 8px 0;
+  text-align: center;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  outline: none;
+  background: none;
+
+  -webkit-app-region: no-drag;
+
+  &.active {
+    background: linear-gradient(180deg, var(--titlebar-active-bg-color-start) 0%, var(--titlebar-active-bg-color-stop) 100%);
+  }
+
+  &.shortcut .icon {
+    font-size: 22px;
+  }
+
+  &.service .icon {
+    font-size: 26px;
+  }
+
+  .icon {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    color: var(--titlebar-icon-color);
+
+    svg {
+      filter: drop-shadow(1px 1px 1px var(--titlebar-icon-shadow-color));
+    }
+  }
+
+  .label {
+    font-size: 11px;
+    line-height: 12px;
+    display: block;
+    margin-top: 2px;
+    color: var(--title-text-color);
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 16px 24px;
+}
+
+body.nofocus {
+  .title {
+    color: var(--title-text-color-dim);
+  }
+
+  .navbar {
+    border-bottom-color: var(--titlebar-border-color-dim);
+    background: var(--titlebar-bg-color-dim);
+  }
+
+  .navbar-item.active {
+    background: var(--titlebar-active-bg-color-dim);
+  }
+
+  .navbar-item .icon {
+    color: var(--titlebar-icon-color-dim);
+  }
+
+  .navbar-item .label {
+    color: var(--title-text-color-dim);
+  }
+}

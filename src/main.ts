@@ -1,6 +1,18 @@
-import { app, globalShortcut } from 'electron'
+import { app, ipcMain, globalShortcut, Notification } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import { config } from './config'
 import { createTray } from './tray'
-import { delLastRecognitionResult } from './persists'
+import {
+  captureAndRecognize,
+  showRecognitionResult,
+} from './handlers'
+import {
+  persists,
+  persistKeys,
+  delLastRecognitionResult,
+  getGlobalShortcuts,
+} from './persists'
+import { SHORTCUTS_CHANGED } from './actions'
 import './result/main'
 import './preferences/main'
 
@@ -9,30 +21,14 @@ if (process.env.NODE_ENV === 'development') {
   require('electron-debug')()
 }
 
-function installExtensions() {
-  if (process.env.NODE_ENV === 'development') {
-    // https://github.com/MarshallOfSound/electron-devtools-installer
-    const installer = require('electron-devtools-installer')
-
-    const extensions = [
-      'REACT_DEVELOPER_TOOLS',
-      'REDUX_DEVTOOLS',
-    ]
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-    return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload)))
-  }
-
-  return Promise.resolve([])
-}
-
 app.dock.hide()
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  installExtensions().then(() => {
+  Private.checkFirstTimerLaunch()
+  Private.installExtensions().then(() => {
     createTray()
+    Private.registerGlobalShortcuts()
+    autoUpdater.checkForUpdatesAndNotify()
   })
 })
 
@@ -41,11 +37,64 @@ app.on('will-quit', () => {
   globalShortcut.unregisterAll()
 })
 
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+module Private {
+  export function installExtensions() {
+    if (process.env.NODE_ENV === 'development') {
+      // https://github.com/MarshallOfSound/electron-devtools-installer
+      const installer = require('electron-devtools-installer')
+
+      const extensions = [
+        'REACT_DEVELOPER_TOOLS',
+        'REDUX_DEVTOOLS',
+      ]
+      const forceDownload = !!process.env.UPGRADE_EXTENSIONS
+      return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload)))
+    }
+
+    return Promise.resolve([])
+  }
+
+  export function checkFirstTimerLaunch() {
+    if (!persists.get(persistKeys.firstRunTimestamp, null)) {
+      app.setLoginItemSettings({ openAtLogin: true })
+
+      persists.set(persistKeys.firstRunTimestamp, Date.now())
+
+      persists.set(persistKeys.autoLaunch, true)
+      persists.set(persistKeys.copyResultToClipboard, true)
+      persists.set(persistKeys.muteScreenshot, false)
+    }
+  }
+
+  export function registerGlobalShortcuts() {
+    const shortcuts = getGlobalShortcuts()
+    if (shortcuts.captureScreen && shortcuts.captureScreen.indexOf('+') > 0) {
+      globalShortcut.register(shortcuts.captureScreen, captureAndRecognize)
+    }
+
+    if (shortcuts.showRecognitionResult && shortcuts.showRecognitionResult.indexOf('+') > 0) {
+      globalShortcut.register(shortcuts.showRecognitionResult, showRecognitionResult)
+    }
+  }
+
+  export function updateGlobalShortcuts() {
+    globalShortcut.unregisterAll()
+    registerGlobalShortcuts()
+  }
+}
+
+ipcMain.on(SHORTCUTS_CHANGED, Private.updateGlobalShortcuts)
+
+process.on('uncaughtException', (error) => {
+  new Notification({
+    title: config.commonErrorMsg,
+    body: error.message,
+    sound: 'Basso',
+  }).show()
 })

@@ -2,7 +2,7 @@
 // - https://ai.baidu.com/docs#/OCR-API/top
 
 import request from 'request'
-import { toBase64 } from './utils'
+import { toBase64 } from '../utils'
 import { config } from '../config'
 import { getBaiduAuthInfo } from '../persists'
 

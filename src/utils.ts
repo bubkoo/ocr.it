@@ -32,3 +32,12 @@ export function getImageSize(imagePath: string) {
   }
   return { width: 0, height: 0 }
 }
+
+export function getHtmlPath(view: string) {
+  const port = process.env.PORT || 3000
+  const isDevelopment = process.env.NODE_ENV === 'development'
+
+  return isDevelopment
+    ? `http://localhost:${port}/dist/${view}/index.html`
+    : `file://${__dirname}/${view}/index.html`
+}

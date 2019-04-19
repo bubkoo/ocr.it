@@ -16,34 +16,60 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development yarn run clean && yarn run build-main-dev && electron ./dist/main.js",
     "postinstall": "yarn run build",
     "dev": "yarn run hot-server --start-hot",
-    "package": "yarn run build && build --publish never",
-    "package-win": "yarn run build && build --win --x64",
-    "package-linux": "yarn run build && build --linux",
-    "package-all": "yarn run build && build -mwl"
+    "pack": "rimraf ./build && build",
+    "package": "yarn run build && yarn run pack"
   },
   "build": {
     "appId": "com.ocr.it",
+    "productName": "ocr.it",
+    "copyright": "Copyright © year ${author}",
     "files": [
-      "app/**/*",
-      "assets/**/*"
+      "dist/**/*",
+      "assets/*"
     ],
     "directories": {
+      "output": "build",
       "buildResources": "assets/build"
     },
+    "dmg": {
+      "background": "assets/build/background.png",
+      "window": {
+        "x": 100,
+        "y": 100,
+        "width": 300,
+        "height": 200
+      },
+      "contents": [
+        {
+          "x": 280,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
     "mac": {
+      "icon": "assets/build/icon.icns",
+      "artifactName": "${productName}-${version}.${ext}",
       "category": "public.app-category.productivity",
-      "minimumSystemVersion": "10.11.0",
-      "extendInfo": {
-        "NSRequiresAquaSystemAppearance": false
-      }
+      "darkModeSupport": true
     },
     "publish": [
       {
         "provider": "github",
-        "owner": "DSnopov",
-        "repo": "screentray-distribution"
+        "owner": "bubkoo",
+        "repo": "ocr.it"
       }
-    ]
+    ],
+    "asar": true,
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    }
   },
   "keywords": [
     "ocr"
@@ -62,12 +88,13 @@
   },
   "homepage": "https://github.com/bubkoo/ocr.it#readme",
   "dependencies": {
-    "electron": "^4.1.3",
+    "classnames": "^2.2.6",
     "electron-store": "^3.1.0",
     "electron-updater": "^4.0.6",
     "image-size": "^0.7.3",
     "lodash.clamp": "^4.0.3",
     "lodash.get": "^4.4.2",
+    "mousetrap": "^1.6.3",
     "node-machine-id": "^1.1.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -75,14 +102,16 @@
     "tencentcloud-sdk-nodejs": "^3.0.54"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.7",
     "@types/electron-store": "^1.3.1",
     "@types/image-size": "^0.7.0",
     "@types/lodash.clamp": "^4.0.6",
     "@types/lodash.get": "^4.4.6",
+    "@types/mousetrap": "^1.6.2",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/request": "^2.48.1",
-    "asar": "^1.0.0",
+    "electron": "^4.1.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "electron-builder": "^20.39.0",

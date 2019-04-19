@@ -1,8 +1,7 @@
 import clamp from 'lodash.clamp'
 import { ipcMain, screen, BrowserWindow } from 'electron'
 import { getTray } from '../tray'
-import { getHtmlPath } from '../window-manager'
-import { getImageSize } from '../engines/utils'
+import { getHtmlPath, getImageSize } from '../utils'
 import {
   SHOW_RESULT_WINDOW,
   RESULT_WINDOW_TOGGLE_IMAGE,

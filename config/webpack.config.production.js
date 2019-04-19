@@ -31,7 +31,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new ExtractTextPlugin('[name]/style.css'),
+    new ExtractTextPlugin('[name]/index.css'),
   ],
 };
 

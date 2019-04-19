@@ -3,7 +3,7 @@
 
 import request from 'request'
 import getin from 'lodash.get'
-import { toBase64 } from './utils'
+import { toBase64 } from '../utils'
 import { config } from '../config'
 
 // tslint:disable-next-line

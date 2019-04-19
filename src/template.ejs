@@ -7,12 +7,18 @@
   <% if (webpackConfig.mode === 'production') { %>
   <link rel="stylesheet" href="./index.css" />
   <% } %>
+  <script>
+    window.__setTheme = function () {
+      const osTheme = window.localStorage.os_theme || 'light';
+      document.documentElement.setAttribute('data-theme', osTheme);
+    }
+  </script>
 </head>
 
 <body>
   <div id="root"></div>
   <% if (webpackConfig.mode === 'production') { %>
-  <link rel="stylesheet" href="./index.js" />
+  <script src='./index.js'></script>
   <% } else { %>
   <script src="<%= webpackConfig.output.publicPath %><%= htmlWebpackPlugin.options.view %>/index.js"></script>
   <% } %>

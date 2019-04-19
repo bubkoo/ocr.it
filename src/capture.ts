@@ -4,7 +4,7 @@ import * as path from 'path'
 import { exec } from 'child_process'
 import { screen } from 'electron'
 import { config } from './config'
-import { getStoredBooleanValue, persistKeys } from './persists'
+import { getStoredValue, persistKeys } from './persists'
 
 function getScreenshotName() {
   const date = new Date()
@@ -34,7 +34,7 @@ export async function capture(fullscreen?: boolean): Promise<{
 }> {
   const name = getScreenshotName()
   const path = getScreenshotPath(name)
-  const mute = getStoredBooleanValue(persistKeys.muteScreenshotSound)
+  const mute = getStoredValue<boolean>(persistKeys.muteScreenshot)
 
   return fullscreen
     ? new Promise((resolve, reject) => {

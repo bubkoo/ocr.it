@@ -1,5 +1,5 @@
 import tencentcloud from 'tencentcloud-sdk-nodejs'
-import { toBase64 } from './utils'
+import { toBase64 } from '../utils'
 import { config } from '../config'
 
 export async function recognize(imagePath: string): Promise<string[]> {

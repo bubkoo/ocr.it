@@ -1,0 +1,69 @@
+html {
+  --input-text-color:#212121;
+  --input-bg-color:#fff;
+  --input-recording-bg-color:#ccc;
+  --input-border-color:#c8c8c8;
+}
+
+html[data-theme="dark"] {
+  --input-text-color:#eee;
+  --input-bg-color:#686666;
+  --input-recording-bg-color:#444;
+  --input-border-color:#868585;
+}
+
+.shortcut-item {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: row;
+  }
+
+  button {
+    position: relative;
+    z-index: 9;
+    font-size: 14px;
+    line-height: 20px;
+    display: inline-block;
+    height: 24px;
+    padding: 0;
+    border: 1px solid #808080;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid var(--input-border-color);
+    background: var(--input-bg-color);
+    color: var(--input-text-color);
+
+    &:first-child {
+      flex: 1;
+      letter-spacing: 2px;
+    }
+
+    &:last-child {
+      z-index: 1;
+      font-size: 12px;
+      width: 32px;
+      margin-left: -6px;
+      padding-left: 6px;
+    }
+
+    &.text {
+      font-size: 12px;
+      letter-spacing: normal;
+    }
+
+    &.recording {
+      background-color: var(--input-recording-bg-color);
+    }
+  }
+}

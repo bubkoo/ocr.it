@@ -7,8 +7,8 @@ export const config = {
   appVersion: pkg.version,
   storeEncryptionKey: '1b03b486f78dcf87e886',
   defaultShortcuts: {
-    captureScreen: '',
-    selectImageFile: '',
+    captureScreen: 'CmdOrCtrl+Shift+C',
+    showRecognitionResult: 'CmdOrCtrl+Shift+R',
   },
   defaultEngine: 'baidu',
   authFailedMsg: 'Oauth failed.',
@@ -18,8 +18,8 @@ export const config = {
     appSecret: 'SyWVu2X4Q68Nhb0cpqEbfVGbG90gHCKB',
   },
   tencentAuthInfo: {
-    secretId: 'AKIDwgcLDvRhjcHEvNEXKwOdfS0JbkebFFuL',
-    secretKey: 'Pd2ORFoDhwwgBiz0vSnsjLkwt41B6ybk',
+    secretId: '',
+    secretKey: '',
   },
-  googleAPIKey: 'AIzaSyD2wITp3ygvVQz3D06xaLHiwWZN1t-ckpc',
+  googleAPIKey: '',
 }

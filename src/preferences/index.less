@@ -1,1 +1,33 @@
 @import '../global.less';
+
+html {
+  --title-text-color: #505050;
+  --title-text-color-dim: #808080;
+  --titlebar-border-color: #a7a7a7;
+  --titlebar-border-color-dim: #d1d1d1;
+  --titlebar-bg-color-start: #e6e6e6;
+  --titlebar-bg-color-stop: #cdcdcd;
+  --titlebar-bg-color-dim: #f6f6f6;
+  --titlebar-active-bg-color-start: #c8c8c8;
+  --titlebar-active-bg-color-stop: #b8b8b8;
+  --titlebar-active-bg-color-dim: #e9e9e9;
+  --titlebar-icon-color: #f5f5f5;
+  --titlebar-icon-color-dim: #eee;
+  --titlebar-icon-shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] {
+  --title-text-color: #c8c8c8;
+  --title-text-color-dim: #808080;
+  --titlebar-border-color: #181818;
+  --titlebar-border-color-dim: #282828;
+  --titlebar-bg-color-start: #505050;
+  --titlebar-bg-color-stop: #404040;
+  --titlebar-bg-color-dim: #383838;
+  --titlebar-active-bg-color-start: #5d5d5d;
+  --titlebar-active-bg-color-stop: #545454;
+  --titlebar-active-bg-color-dim: #424242;
+  --titlebar-icon-color: #f5f5f5;
+  --titlebar-icon-color-dim: #969696;
+  --titlebar-icon-shadow-color: rgba(255, 255, 255, 0.4);
+}

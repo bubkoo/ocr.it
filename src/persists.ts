@@ -6,9 +6,12 @@ export const persists = new ElectronStore({
 })
 
 export const persistKeys = {
-  launchAtLogin: 'launchAtLogin',
+  autoLaunch: 'autoLunch',
+  muteScreenshot: 'muteScreenshot',
+  copyResultToClipboard: 'copyResultToClipboard',
+  firstRunTimestamp: 'firstRunTimestamp',
   recognitionEngine: 'recognizeEngine',
-  muteScreenshotSound: 'muteScreenshotSound',
+  globalShortcuts: 'globalShortcuts',
 
   baiduAuthInfo: 'baiduAuthInfo',
   tencentAuthInfo: 'tencentAuthInfo',
@@ -18,12 +21,21 @@ export const persistKeys = {
   recognitionResultWindowOptions: 'recognitionResultWindowOptions',
 }
 
-export function getStoredBooleanValue(key: string): boolean {
-  return persists.get(key) as boolean
-}
-
 export function getStoredValue<T>(key: string): T {
   return persists.get(key) as T
+}
+
+export interface GlobalShortcuts {
+  captureScreen: string,
+  showRecognitionResult: string,
+}
+
+export function getGlobalShortcuts() {
+  return persists.get(persistKeys.globalShortcuts, config.defaultShortcuts) as GlobalShortcuts
+}
+
+export function setGlobalShortcuts(value: GlobalShortcuts) {
+  persists.set(persistKeys.globalShortcuts, value)
 }
 
 export type RecognitionEngine = 'baidu' | 'google' | 'tencent' | ''
@@ -33,10 +45,16 @@ export interface BaiduAuthInfo {
   appSecret: string,
 }
 
-export function getBaiduAuthInfo(
-  defaultValue: BaiduAuthInfo = config.baiduAuthInfo,
-): BaiduAuthInfo {
-  return persists.get(persistKeys.baiduAuthInfo, defaultValue)
+export function getBaiduAuthInfo(defaultValue?: BaiduAuthInfo): BaiduAuthInfo {
+  const ret = persists.get(persistKeys.baiduAuthInfo, defaultValue || {}) as BaiduAuthInfo
+  if (ret.appKey && ret.appSecret) {
+    return ret
+  }
+  return config.baiduAuthInfo
+}
+
+export function getBaiduAuthInfoRaw(): BaiduAuthInfo {
+  return persists.get(persistKeys.baiduAuthInfo, {}) as BaiduAuthInfo
 }
 
 export function setBaiduAuthInfo(value: BaiduAuthInfo): void {
@@ -48,18 +66,16 @@ export interface TencentAuthInfo {
   secretKey: string,
 }
 
-export function getTencentAuthInfo(
-  defaultValue: TencentAuthInfo = config.tencentAuthInfo,
-): TencentAuthInfo {
-  return persists.get(persistKeys.tencentAuthInfo, defaultValue)
+export function getTencentAuthInfo(defaultValue?: TencentAuthInfo): TencentAuthInfo {
+  return persists.get(persistKeys.tencentAuthInfo, defaultValue || {})
 }
 
 export function setTencentAuthInfo(value: TencentAuthInfo): void {
   persists.set(persistKeys.tencentAuthInfo, value)
 }
 
-export function getGoogleAPIKey(defaultValue: string = config.googleAPIKey): string {
-  return persists.get(persistKeys.googleAPIKey, defaultValue)
+export function getGoogleAPIKey(defaultValue?: string): string {
+  return persists.get(persistKeys.googleAPIKey, defaultValue || '')
 }
 
 export function setGoogleAPIKey(value: string): void {
@@ -124,5 +140,3 @@ export function getRecognitionResultWindowOptions(): RecognitionResultWindowOpti
 export function setRecognitionResultWindowOptions(options: RecognitionResultWindowOptions) {
   persists.set(persistKeys.recognitionResultWindowOptions, options)
 }
-
-
