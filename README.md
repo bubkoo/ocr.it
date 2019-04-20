@@ -4,7 +4,7 @@
 
 ## Assets
 
-- App Icon: 
+- App Icon: https://www.sketchappsources.com/free-source/2656-sample-app-icons-sketch-freebie-resource.html
 - Tray Icon: https://www.svgrepo.com/svg/205244/text
 
 ## TODO
