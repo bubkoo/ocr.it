@@ -2,6 +2,7 @@ import { app, ipcMain, globalShortcut, Notification } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { config } from './config'
 import { createTray } from './tray'
+import { SHORTCUTS_CHANGED } from './actions'
 import {
   captureAndRecognize,
   showRecognitionResult,
@@ -12,9 +13,9 @@ import {
   delLastRecognitionResult,
   getGlobalShortcuts,
 } from './persists'
-import { SHORTCUTS_CHANGED } from './actions'
 import './result/main'
 import './preferences/main'
+import './indicator/main'
 
 if (process.env.NODE_ENV === 'development') {
   // https://github.com/sindresorhus/electron-debug

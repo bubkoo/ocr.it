@@ -10,6 +10,7 @@ const config = {
   target: 'electron-renderer',
   entry: {
     result: './src/result/index.tsx',
+    indicator: './src/indicator/index.tsx',
     preferences: './src/preferences/index.tsx',
   },
   output: {

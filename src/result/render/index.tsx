@@ -74,16 +74,18 @@ export default class Root extends React.Component<Root.Props, Root.State> {
     const { data } = this.state
 
     return (
-      <div className="result-wrap">
-        {this.renderImage()}
-        <div className="result-text">
-          <textarea
-            value={data.result.join('\n')}
-            onChange={this.handleTextChange}
-          />
-          {this.renderOptions()}
+      <React.Fragment>
+        <div className="result-wrap">
+          {this.renderImage()}
+          <div className="result-text">
+            <textarea
+              value={data.result.join('\n')}
+              onChange={this.handleTextChange}
+            />
+            {this.renderOptions()}
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }

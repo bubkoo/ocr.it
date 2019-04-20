@@ -15,6 +15,11 @@ const config = {
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,
       './src/result/index.tsx',
     ],
+    indicator: [
+      'react-hot-loader/patch',
+      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,
+      './src/indicator/index.tsx',
+    ],
     preferences: [
       'react-hot-loader/patch',
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,
@@ -40,14 +45,6 @@ const config = {
     }),
     new webpack.LoaderOptionsPlugin({
       debug: true
-    }),
-    new HtmlWebpackPlugin({
-      inject: false,
-      minify: true,
-      template: './src/template.ejs',
-      filename: 'result/index.html',
-      title: 'Recognition Result',
-      view: 'result',
     }),
   ],
 };

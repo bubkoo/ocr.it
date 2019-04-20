@@ -1,7 +1,7 @@
 import clamp from 'lodash.clamp'
 import { app, ipcMain, screen, BrowserWindow } from 'electron'
-import { getTray } from '../tray'
 import { getHtmlPath, getImageSize } from '../utils'
+import { getTray } from '../tray'
 import {
   SHOW_RESULT_WINDOW,
   RESULT_WINDOW_TOGGLE_IMAGE,
@@ -98,13 +98,18 @@ function updateWindowPosition() {
   window.setPosition(x, y, false)
 }
 
-function showWindow() {
-  if (!window) {
-    createWindow()
-  }
+function showAndFocus() {
   updateWindowPosition()
   window.show()
   window.focus()
+}
+
+function showWindow() {
+  if (!window) {
+    createWindow()
+    window!.once('ready-to-show', showAndFocus)
+  }
+  showAndFocus()
 }
 
 app.on('before-quit', () => {

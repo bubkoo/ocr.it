@@ -1,12 +1,16 @@
 import * as path from 'path'
-import { ipcMain, systemPreferences, Tray, Menu } from 'electron'
+import { ipcMain, systemPreferences, Tray, Menu, nativeImage } from 'electron'
 import { config } from './config'
+import { requestIndicator } from './indicator/main'
 import {
   recognizeImage,
   captureAndRecognize,
   selectFileAndRecognize,
 } from './handlers'
 import {
+  RECIGNIZE_STARTED,
+  RECIGNIZE_FINISHED,
+  RESPONSE_PROGRESS_INDICATOR,
   SHORTCUTS_CHANGED,
   SHOW_RESULT_WINDOW,
   SHOW_PREFERENCES_WINDOW,
@@ -124,6 +128,11 @@ module Private {
     tray.setImage(getTrayIcon())
   }
 
+  export function updateIndicator(dataurl: string) {
+    const img = nativeImage.createFromDataURL(dataurl)
+    tray.setImage(img.resize({ width: 22, height: 22, quality: 'best' }))
+  }
+
   export function initDragAndDrop() {
     tray.on('drag-enter', () => {
       dragOverWithFile = true
@@ -151,6 +160,42 @@ module Private {
     })
   }
 }
+
+let recognizing = false
+
+ipcMain.on(RECIGNIZE_STARTED, (data: any) => {
+  const startTime = new Date()
+  const totalTime = data.totalTime as number
+
+  let elapsed = 1
+  recognizing = true
+
+  const tick = () => {
+    if (elapsed < totalTime && recognizing) {
+      requestIndicator(100 * elapsed / totalTime)
+      setTimeout(
+        () => {
+          elapsed = new Date().getTime() - startTime.getTime()
+          tick()
+        },
+        16,
+      )
+    }
+  }
+
+  tick()
+})
+
+ipcMain.on(RECIGNIZE_FINISHED, () => {
+  recognizing = false
+  Private.updateTrayIcon()
+})
+
+ipcMain.on(RESPONSE_PROGRESS_INDICATOR, (e: any, data: any) => {
+  if (recognizing) {
+    Private.updateIndicator(data.image as string)
+  }
+})
 
 ipcMain.on(SHOW_RESULT_WINDOW, () => {
   if (!Private.hasRecognitionResult) {

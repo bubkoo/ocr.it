@@ -1,29 +1,71 @@
 import { ipcMain, dialog, clipboard, Notification } from 'electron'
 import { capture } from './capture'
 import { recognize } from './engines'
-import { SHOW_RESULT_WINDOW } from './actions'
+import {
+  RECIGNIZE_STARTED,
+  RECIGNIZE_FINISHED,
+  SHOW_RESULT_WINDOW,
+} from './actions'
 import {
   persistKeys,
   getStoredValue,
+  getRecognitionEngine,
   setLastRecognitionResult,
   getLastRecognitionResult,
+  getAverageRecognitionTime,
+  setAverageRecognitionTime,
 } from './persists'
 
-export async function recognizeImage(path: string) {
-  return recognize(path).then(
+const queue: string[] = []
+let pending = false
+
+function nextRecgnize() {
+  pending = false
+  if (queue.length) {
+    recognizeImage(queue.shift()!)
+  }
+}
+
+export function recognizeImage(path: string) {
+  if (pending) {
+    queue.push(path)
+    return
+  }
+
+  const engine = getRecognitionEngine()
+  const perf = getAverageRecognitionTime()
+  const prev = (perf as any)[engine] || 0
+  const startTime = new Date()
+
+  pending = true
+  ipcMain.emit(RECIGNIZE_STARTED, { totalTime: prev })
+
+  recognize(path).then(
     (result) => {
       const data = { path, result }
-      console.log(data)
       setLastRecognitionResult(data)
-      ipcMain.emit(SHOW_RESULT_WINDOW)
 
       if (getStoredValue<boolean>(persistKeys.copyResultToClipboard)) {
         clipboard.writeText(result.join('\n'))
       }
 
+      const elapsed = new Date().getTime() - startTime.getTime()
+
+      setAverageRecognitionTime({
+        ...perf,
+        [engine]: prev ? (prev + elapsed) / 2 : elapsed,
+      })
+
+      ipcMain.emit(RECIGNIZE_FINISHED)
+      ipcMain.emit(SHOW_RESULT_WINDOW)
+      nextRecgnize()
+
       return data
     },
     (err) => {
+      ipcMain.emit(RECIGNIZE_FINISHED)
+      nextRecgnize()
+
       new Notification({
         title: 'Service Error',
         body: err,
@@ -32,12 +74,12 @@ export async function recognizeImage(path: string) {
     })
 }
 
-export async function captureAndRecognize() {
-  return capture().then(({ path }) => recognizeImage(path))
+export function captureAndRecognize() {
+  capture().then(({ path }) => recognizeImage(path))
 }
 
-export async function selectFileAndRecognize() {
-  return new Promise((resolve) => {
+export function selectFileAndRecognize() {
+  new Promise((resolve) => {
     dialog.showOpenDialog(
       {
         properties: ['openFile', 'createDirectory'],
@@ -46,7 +88,7 @@ export async function selectFileAndRecognize() {
         ],
       },
       (paths) => {
-        if (paths.length) {
+        if (paths && paths.length) {
           resolve(paths[0])
         }
       },

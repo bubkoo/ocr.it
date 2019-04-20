@@ -12,3 +12,8 @@ export const SHOW_PREFERENCES_WINDOW = 'show-preferences-window'
 export const PREFERENCES_WINDOW_FOCUS = 'preferences-window-focus'
 export const PREFERENCES_WINDOW_BLUR = 'preferences-window-BLUR'
 export const PREFERENCES_WINDOW_UPDATE_SIZE = 'preferences-window-update-size'
+
+export const RECIGNIZE_STARTED = 'recoginze-started'
+export const RECIGNIZE_FINISHED = 'recoginze-finished'
+export const REQUEST_PROGRESS_INDICATOR = 'request-progress-indicator'
+export const RESPONSE_PROGRESS_INDICATOR = 'response-progress-indicator'

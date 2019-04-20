@@ -18,6 +18,8 @@ export const persistKeys = {
   googleAPIKey: 'googleAPIKey',
 
   lastRecognitionResult: 'lastRecognitionResult',
+  averageRecognitionTime: 'averageRecognitionTime',
+
   recognitionResultWindowOptions: 'recognitionResultWindowOptions',
 }
 
@@ -139,4 +141,22 @@ export function getRecognitionResultWindowOptions(): RecognitionResultWindowOpti
 
 export function setRecognitionResultWindowOptions(options: RecognitionResultWindowOptions) {
   persists.set(persistKeys.recognitionResultWindowOptions, options)
+}
+
+export interface AverageRecognitionTime {
+  baidu: number,
+  google: number,
+  tencent: number,
+}
+
+export function getAverageRecognitionTime() {
+  return persists.get(persistKeys.averageRecognitionTime, {
+    baidu: 0,
+    google: 0,
+    tencent: 0,
+  }) as AverageRecognitionTime
+}
+
+export function setAverageRecognitionTime(value: AverageRecognitionTime) {
+  persists.set(persistKeys.averageRecognitionTime, value)
 }
