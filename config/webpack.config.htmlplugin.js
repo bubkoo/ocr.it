@@ -14,6 +14,15 @@ module.exports = [
     inject: false,
     minify: true,
     template: './src/template.ejs',
+    filename: 'history/index.html',
+    title: 'Recognition History',
+    view: 'history',
+  }),
+
+  new HtmlWebpackPlugin({
+    inject: false,
+    minify: true,
+    template: './src/template.ejs',
     filename: 'indicator/index.html',
     title: 'Indicator',
     view: 'indicator',

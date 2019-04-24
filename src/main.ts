@@ -14,6 +14,7 @@ import {
   getGlobalShortcuts,
 } from './persists'
 import './result/main'
+import './history/main'
 import './preferences/main'
 import './indicator/main'
 

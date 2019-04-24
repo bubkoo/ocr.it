@@ -15,6 +15,7 @@ import {
   RESULT_WINDOW_PREPARE_SHOW,
   PREFERENCES_WINDOW_SHOW,
   SERVICE_CONFIG_CHANGED,
+  HISTORY_WINDOW_SHOW,
 } from './actions'
 import {
   getGlobalShortcuts,
@@ -75,6 +76,13 @@ module Private {
     const recognitionEngine = getRecognitionEngine()
 
     items.push(
+      {
+        label: 'Recognition History',
+        accelerator: 'H',
+        click: () => {
+          ipcMain.emit(HISTORY_WINDOW_SHOW)
+        },
+      },
       {
         label: 'Recognition Service', submenu: [
           {

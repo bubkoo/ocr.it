@@ -15,6 +15,11 @@ const config = {
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,
       './src/result/index.tsx',
     ],
+    history: [
+      'react-hot-loader/patch',
+      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,
+      './src/history/index.tsx',
+    ],
     indicator: [
       'react-hot-loader/patch',
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr&reload=true`,

@@ -1,5 +1,6 @@
 import ElectronStore from 'electron-store'
 import { config } from './config'
+import { toBase64Sync } from './utils'
 
 export const persists = new ElectronStore({
   encryptionKey: config.storeEncryptionKey,
@@ -18,6 +19,7 @@ export const persistKeys = {
   googleAPIKey: 'googleAPIKey',
 
   lastRecognitionResult: 'lastRecognitionResult',
+  historyRecognitions: 'historyRecognitions',
   averageRecognitionTime: 'averageRecognitionTime',
 
   recognitionResultWindowOptions: 'recognitionResultWindowOptions',
@@ -160,4 +162,65 @@ export function getAverageRecognitionTime() {
 
 export function setAverageRecognitionTime(value: AverageRecognitionTime) {
   persists.set(persistKeys.averageRecognitionTime, value)
+}
+
+export interface HistoryItem extends RecognitionResult {
+  datetime: number
+}
+
+export function getHistoryRecognitions(raw?: boolean) {
+  const items = (persists.get(persistKeys.historyRecognitions) || []) as HistoryItem[]
+  if (raw) {
+    return items
+  }
+
+  return items.map(item => ({
+    ...item,
+    path: toBase64Sync(item.path),
+  })).filter(item => item.path)
+}
+
+export function setHistoryRecognitions(items: HistoryItem[]) {
+  persists.set(persistKeys.historyRecognitions, items)
+}
+
+export function cleanHistoryRecognitions() {
+  persists.set(persistKeys.historyRecognitions, [])
+}
+
+export function addItemToHistory(data: RecognitionResult) {
+  const item: HistoryItem = {
+    ...data,
+    datetime: new Date().getTime(),
+  }
+  const items = getHistoryRecognitions(true)
+  items.push(item)
+  setHistoryRecognitions(items)
+}
+
+function delHistoryItem(items: HistoryItem[], item: HistoryItem) {
+  let index = -1
+  items.some((it: HistoryItem, i: number) => {
+    if (it.path === item.path) {
+      index = i
+      return true
+    }
+    return false
+  })
+
+  if (index >= 0) {
+    items.splice(index, 1)
+  }
+}
+
+export function removeHistoryRecognitionItem(item: HistoryItem) {
+  const items = getHistoryRecognitions(true)
+  delHistoryItem(items, item)
+  setHistoryRecognitions(items)
+}
+
+export function removeHistoryRecognitionItems(items: HistoryItem[]) {
+  const sotredItems = getHistoryRecognitions(true)
+  items.forEach(item => delHistoryItem(sotredItems, item))
+  setHistoryRecognitions(sotredItems)
 }

@@ -16,6 +16,7 @@ import {
   getAverageRecognitionTime,
   setAverageRecognitionTime,
   getResultWindowOptions,
+  addItemToHistory,
 } from './persists'
 
 const queue: string[] = []
@@ -56,6 +57,7 @@ export function recognizeImage(path: string) {
         ]
       }
 
+      addItemToHistory(data)
       setLastRecognitionResult(data)
 
       if (getStoredValue<boolean>(persistKeys.copyResultToClipboard)) {
