@@ -1,35 +1,53 @@
 import React from 'react'
-import { ipcRenderer } from 'electron'
+import classnames from 'classnames'
+import { ipcRenderer, clipboard, remote } from 'electron'
 import { toBase64Sync } from '../../utils'
 import {
-  GET_LAST_RECOGNITION_RESULT,
+  RESULT_WINDOW_UPDATE,
+  RESULT_WINDOW_SHOW,
   RESULT_WINDOW_TOGGLE_IMAGE,
-  RESULT_WINDOW_SHOW_OPTION_MENU,
+  RESULT_WINDOW_TOGGLE_PINNED,
 } from '../../actions'
 import {
   RecognitionResult,
   getLastRecognitionResult,
   setLastRecognitionResult,
-  RecognitionResultWindowOptions,
-  getRecognitionResultWindowOptions,
+  ResultWindowOptions,
+  getResultWindowOptions,
+  setResultWindowOptions,
 } from '../../persists'
+import * as icons from './icons'
 import './index.less'
 
 export default class Root extends React.Component<Root.Props, Root.State> {
+  testDiv: HTMLDivElement
+
   constructor(props: Root.Props) {
     super(props)
     this.state = {
       data: getLastRecognitionResult(),
-      options: getRecognitionResultWindowOptions(),
+      options: getResultWindowOptions(),
     }
 
-    ipcRenderer.on(GET_LAST_RECOGNITION_RESULT, () => {
-      this.setState({ data: getLastRecognitionResult() })
+    ipcRenderer.on(RESULT_WINDOW_UPDATE, () => {
+      const data = getLastRecognitionResult()
+      this.setState({ data }, () => {
+        this.measureText(data.result || [])
+      })
     })
 
     ipcRenderer.on(RESULT_WINDOW_TOGGLE_IMAGE, () => {
-      this.setState({ options: getRecognitionResultWindowOptions() })
+      this.setState({ options: getResultWindowOptions() })
     })
+  }
+
+  measureText(texts: string[]) {
+    this.testDiv.innerHTML = texts.join('<br>')
+    ipcRenderer.send(RESULT_WINDOW_SHOW, {
+      width: this.testDiv.clientWidth + 16,
+      height: this.testDiv.clientHeight + 8,
+    })
+    this.testDiv.innerHTML = ''
   }
 
   handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,8 +57,46 @@ export default class Root extends React.Component<Root.Props, Root.State> {
     this.setState({ data })
   }
 
-  handleOptionsClick = () => {
-    ipcRenderer.send(RESULT_WINDOW_SHOW_OPTION_MENU)
+  toggleContinuously = () => {
+    const options = {
+      ...this.state.options,
+      continuously: !this.state.options.continuously,
+    }
+    this.setState({ options })
+    setResultWindowOptions(options)
+  }
+
+  toggleImage = () => {
+    const options = {
+      ...this.state.options,
+      showImage: !this.state.options.showImage,
+    }
+    this.setState({ options })
+    setResultWindowOptions(options)
+    ipcRenderer.send(RESULT_WINDOW_TOGGLE_IMAGE)
+  }
+
+  togglePinned = () => {
+    const options = {
+      ...this.state.options,
+      pinned: !this.state.options.pinned,
+    }
+    this.setState({ options })
+    setResultWindowOptions(options)
+    ipcRenderer.send(RESULT_WINDOW_TOGGLE_PINNED)
+  }
+
+  copyToClipboard = () => {
+    clipboard.writeText(this.state.data.result.join('\n'))
+    new remote.Notification({
+      title: 'ocr.it',
+      body: 'Recognition result was copied',
+      sound: 'Basso',
+    }).show()
+  }
+
+  refTest = (elem: HTMLDivElement) => {
+    this.testDiv = elem
   }
 
   renderImage() {
@@ -49,23 +105,50 @@ export default class Root extends React.Component<Root.Props, Root.State> {
       const url = data.path ? `data:image/png;base64,${toBase64Sync(data.path)}` : ''
       return (
         <div className="result-image">
-          <div className="result-image-inner">
-            <img src={url} srcSet={`${url} 2x`} />
-          </div>
+          <div
+            className="result-image-inner"
+            style={{ backgroundImage: `url('${url}')` }}
+          />
         </div>
       )
     }
   }
 
-  // tslint:disable:max-line-length
   renderOptions() {
+    const { options } = this.state
     return (
       <div className="result-options">
-        <i className="icon" onClick={this.handleOptionsClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false">
-            <path d="M30 16c4.411 0 8-3.589 8-8s-3.589-8-8-8-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6zM30 44c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zm0 14c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6zM30 22c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zm0 14c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6z" />
-          </svg>
-        </i>
+        <div className="toolbar">
+          <i className="icon copy" onClick={this.copyToClipboard}>
+            <span className="tooltip">Copy to Clipboard</span>
+            {icons.copy()}
+          </i>
+        </div>
+        <div className="toolbar">
+          <i
+            onClick={this.toggleContinuously}
+            className={classnames('icon', { checked: options.continuously })}
+          >
+            <span className="tooltip right">Continuously recognize</span>
+            {icons.continuously()}
+          </i>
+          <i
+            onClick={this.toggleImage}
+            className={classnames('icon', { checked: options.showImage })}
+          >
+            <span className="tooltip right">Toggle Image</span>
+            {icons.image()}
+          </i>
+          <i
+            onClick={this.togglePinned}
+            className={classnames('icon pin', { checked: options.pinned })}
+          >
+            <span className="tooltip right">Toggle Pinned</span>
+            {
+              icons.pin()
+            }
+          </i>
+        </div>
       </div>
     )
   }
@@ -75,6 +158,7 @@ export default class Root extends React.Component<Root.Props, Root.State> {
 
     return (
       <React.Fragment>
+        <div id="test" ref={this.refTest} />
         <div className="result-wrap">
           {this.renderImage()}
           <div className="result-text">
@@ -94,6 +178,6 @@ export namespace Root {
   export interface Props { }
   export interface State {
     data: RecognitionResult,
-    options: RecognitionResultWindowOptions
+    options: ResultWindowOptions
   }
 }

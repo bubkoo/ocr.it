@@ -1,7 +1,7 @@
 import { app, ipcMain, BrowserWindow, Event } from 'electron'
 import { getHtmlPath } from '../utils'
 import {
-  SHOW_PREFERENCES_WINDOW,
+  PREFERENCES_WINDOW_SHOW,
   PREFERENCES_WINDOW_BLUR,
   PREFERENCES_WINDOW_FOCUS,
   PREFERENCES_WINDOW_UPDATE_SIZE,
@@ -70,7 +70,7 @@ app.on('before-quit', () => {
   }
 })
 
-ipcMain.on(SHOW_PREFERENCES_WINDOW, () => {
+ipcMain.on(PREFERENCES_WINDOW_SHOW, () => {
   showWindow()
 })
 

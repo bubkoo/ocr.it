@@ -130,16 +130,17 @@ export function delLastRecognitionResult() {
   persists.delete(persistKeys.lastRecognitionResult)
 }
 
-export interface RecognitionResultWindowOptions {
-  pinned?: boolean
-  showImage?: boolean
+export interface ResultWindowOptions {
+  pinned?: boolean,
+  showImage?: boolean,
+  continuously?: boolean,
 }
 
-export function getRecognitionResultWindowOptions(): RecognitionResultWindowOptions {
+export function getResultWindowOptions(): ResultWindowOptions {
   return persists.get(persistKeys.recognitionResultWindowOptions, {})
 }
 
-export function setRecognitionResultWindowOptions(options: RecognitionResultWindowOptions) {
+export function setResultWindowOptions(options: ResultWindowOptions) {
   persists.set(persistKeys.recognitionResultWindowOptions, options)
 }
 

@@ -4,7 +4,8 @@ import { recognize } from './engines'
 import {
   RECIGNIZE_STARTED,
   RECIGNIZE_FINISHED,
-  SHOW_RESULT_WINDOW,
+  RESULT_WINDOW_HIDE,
+  RESULT_WINDOW_PREPARE_SHOW,
 } from './actions'
 import {
   persistKeys,
@@ -14,6 +15,7 @@ import {
   getLastRecognitionResult,
   getAverageRecognitionTime,
   setAverageRecognitionTime,
+  getResultWindowOptions,
 } from './persists'
 
 const queue: string[] = []
@@ -42,7 +44,18 @@ export function recognizeImage(path: string) {
 
   recognize(path).then(
     (result) => {
+      const options = getResultWindowOptions()
       const data = { path, result }
+      if (options.continuously) {
+        const old = getLastRecognitionResult()
+        const lastResult = (old || {}).result || []
+        data.result = [
+          ...lastResult,
+          '',
+          ...data.result,
+        ]
+      }
+
       setLastRecognitionResult(data)
 
       if (getStoredValue<boolean>(persistKeys.copyResultToClipboard)) {
@@ -56,8 +69,8 @@ export function recognizeImage(path: string) {
         [engine]: prev ? (prev + elapsed) / 2 : elapsed,
       })
 
+      ipcMain.emit(RESULT_WINDOW_PREPARE_SHOW)
       ipcMain.emit(RECIGNIZE_FINISHED)
-      ipcMain.emit(SHOW_RESULT_WINDOW)
       nextRecgnize()
 
       return data
@@ -75,10 +88,12 @@ export function recognizeImage(path: string) {
 }
 
 export function captureAndRecognize() {
+  ipcMain.emit(RESULT_WINDOW_HIDE)
   capture().then(({ path }) => recognizeImage(path))
 }
 
 export function selectFileAndRecognize() {
+  ipcMain.emit(RESULT_WINDOW_HIDE)
   new Promise((resolve) => {
     dialog.showOpenDialog(
       {
@@ -99,6 +114,6 @@ export function selectFileAndRecognize() {
 export function showRecognitionResult() {
   const data = getLastRecognitionResult()
   if (data) {
-    ipcMain.emit(SHOW_RESULT_WINDOW)
+    ipcMain.emit(RESULT_WINDOW_PREPARE_SHOW)
   }
 }

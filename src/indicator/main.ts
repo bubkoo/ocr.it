@@ -1,11 +1,14 @@
 // refs
 // - https://github.com/electron/electron/issues/5439#issuecomment-217762329
 
-import { app, BrowserWindow } from 'electron'
+import { app, ipcMain, BrowserWindow } from 'electron'
 import { getHtmlPath } from '../utils'
-import { REQUEST_PROGRESS_INDICATOR } from '../actions'
+import {
+  RECIGNIZE_FINISHED,
+  REQUEST_PROGRESS_INDICATOR,
+} from '../actions'
 
-let window: BrowserWindow
+let window: null | BrowserWindow
 
 function createWindow() {
   window = new BrowserWindow({
@@ -22,24 +25,38 @@ function createWindow() {
     },
     width: 44,
     height: 44,
-    x: -100000,
-    y: -100000,
+    x: -10000,
+    y: -10000,
   })
 
   window.setIgnoreMouseEvents(true) // 点击穿透
   window.loadURL(getHtmlPath('indicator'))
 }
 
-export function requestIndicator(progress: number) {
-  window.webContents.send(REQUEST_PROGRESS_INDICATOR, { progress })
+function ensureWindow() {
+  return new Promise((resolve) => {
+    if (window) {
+      resolve()
+    } else {
+      createWindow()
+      window!.once('ready-to-show', () => resolve())
+    }
+  })
 }
 
-app.on('ready', () => {
-  createWindow()
-})
-
-app.on('before-quit', () => {
+function closeWindow() {
   if (window) {
     window.close()
+    window = null
   }
-})
+}
+
+export function requestIndicator(progress: number) {
+  ensureWindow().then(() => {
+    window!.webContents.send(REQUEST_PROGRESS_INDICATOR, { progress })
+  })
+}
+
+ipcMain.on(RECIGNIZE_FINISHED, closeWindow)
+
+app.on('before-quit', closeWindow)

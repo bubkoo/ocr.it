@@ -27,11 +27,17 @@ function getScreenshotPath(name: string) {
   return path.join(tmpdir, name)
 }
 
-export async function capture(fullscreen?: boolean): Promise<{
+export interface CaptureOptions {
+  fullscreen?: boolean,
+  captureWindow?: boolean,
+}
+
+export async function capture(options: CaptureOptions = {}): Promise<{
   name: string,
   path: string,
   globalRect?: number[],
 }> {
+  const { fullscreen, captureWindow } = options
   const name = getScreenshotName()
   const path = getScreenshotPath(name)
   const mute = getStoredValue<boolean>(persistKeys.muteScreenshot)
@@ -50,15 +56,25 @@ export async function capture(fullscreen?: boolean): Promise<{
         }
         resolve({ name, path, globalRect })
       })
-    })
-    : new Promise((resolve, reject) => {
-      const cmd = `screencapture -i -o ${mute ? '-x' : ''} ${path}`
-      exec(cmd, (err) => {
-        if (err) {
-          console.error(err)
-          return reject(err)
-        }
-        resolve({ name, path })
+    }) : captureWindow
+      ? new Promise((resolve, reject) => {
+        const cmd = `screencapture -W -o ${mute ? '-x' : ''} ${path}`
+        exec(cmd, (err) => {
+          if (err) {
+            console.error(err)
+            return reject(err)
+          }
+          resolve({ name, path })
+        })
       })
-    })
+      : new Promise((resolve, reject) => {
+        const cmd = `screencapture -i -o ${mute ? '-x' : ''} ${path}`
+        exec(cmd, (err) => {
+          if (err) {
+            console.error(err)
+            return reject(err)
+          }
+          resolve({ name, path })
+        })
+      })
 }

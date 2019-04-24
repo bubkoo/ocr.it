@@ -15,22 +15,24 @@ root.appendChild(canvas)
 
 function sector(startDeg: number, stopDeg: number) {
   const isDarkMode = remote.systemPreferences.isDarkMode()
-  const fill = isDarkMode ? '#ffffff' : '#191919'
+  const themeColor = isDarkMode ? '#ffffff' : '#191919'
   const ctx = canvas.getContext('2d')!
+  const centerX = 22
+  const centerY = 22
   const radius = 18
   const deg = Math.PI / 180
   const sDeg = startDeg * deg
   const eDeg = stopDeg * deg
 
-  ctx.clearRect(0, 0, 44, 44)
-  ctx.fillStyle = fill
+  ctx.clearRect(0, 0, centerX * 2, centerY * 2)
+  ctx.fillStyle = themeColor
 
   ctx.save()
-  ctx.translate(22, 22) // 设置原点
+  ctx.translate(centerX, centerY)
   ctx.beginPath()
-  ctx.arc(0, 0, radius, sDeg, eDeg) // 画出圆弧
+  ctx.arc(0, 0, radius, sDeg, eDeg)
 
-  ctx.save() // 再次保存以备旋转
+  ctx.save()
   ctx.rotate(eDeg) // 旋转至起始角度
   ctx.moveTo(radius, 0) // 移动到终点，准备连接终点与圆心
   ctx.lineTo(0, 0) // 连接到圆心
@@ -43,6 +45,14 @@ function sector(startDeg: number, stopDeg: number) {
 
   ctx.restore() // 还原到最初保存的状态
   ctx.fill()
+
+  // 外圆
+  ctx.beginPath()
+  ctx.strokeStyle = themeColor
+  ctx.lineWidth = 2
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true)
+  ctx.closePath()
+  ctx.stroke()
 
   return canvas.toDataURL('image/png')
 }

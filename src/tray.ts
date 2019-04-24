@@ -12,8 +12,8 @@ import {
   RECIGNIZE_FINISHED,
   RESPONSE_PROGRESS_INDICATOR,
   SHORTCUTS_CHANGED,
-  SHOW_RESULT_WINDOW,
-  SHOW_PREFERENCES_WINDOW,
+  RESULT_WINDOW_PREPARE_SHOW,
+  PREFERENCES_WINDOW_SHOW,
   SERVICE_CONFIG_CHANGED,
 } from './actions'
 import {
@@ -64,7 +64,7 @@ module Private {
         label: 'Recognition Result',
         accelerator: 'R',
         click: () => {
-          ipcMain.emit(SHOW_RESULT_WINDOW)
+          ipcMain.emit(RESULT_WINDOW_PREPARE_SHOW)
         },
       })
     }
@@ -102,7 +102,7 @@ module Private {
         label: 'Preferences...',
         accelerator: 'Cmd+,',
         click: () => {
-          ipcMain.emit(SHOW_PREFERENCES_WINDOW)
+          ipcMain.emit(PREFERENCES_WINDOW_SHOW)
         },
       },
       { type: 'separator' },
@@ -197,7 +197,7 @@ ipcMain.on(RESPONSE_PROGRESS_INDICATOR, (e: any, data: any) => {
   }
 })
 
-ipcMain.on(SHOW_RESULT_WINDOW, () => {
+ipcMain.on(RESULT_WINDOW_PREPARE_SHOW, () => {
   if (!Private.hasRecognitionResult) {
     Private.hasRecognitionResult = true
     Private.tray.setContextMenu(Private.getContextMenu())

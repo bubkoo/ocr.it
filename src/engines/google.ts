@@ -31,7 +31,6 @@ export async function recognize(imagePath: string): Promise<string[]> {
       },
       (err, res: request.Response, body) => {
         try {
-          console.log(body)
           if (err) {
             reject(err)
           } else {
