@@ -35,7 +35,10 @@ export interface GlobalShortcuts {
 }
 
 export function getGlobalShortcuts() {
-  return persists.get(persistKeys.globalShortcuts, config.defaultShortcuts) as GlobalShortcuts
+  return persists.get(
+    persistKeys.globalShortcuts,
+    config.defaultShortcuts,
+  ) as GlobalShortcuts
 }
 
 export function setGlobalShortcuts(value: GlobalShortcuts) {
@@ -70,8 +73,13 @@ export interface TencentAuthInfo {
   secretKey: string,
 }
 
-export function getTencentAuthInfo(defaultValue?: TencentAuthInfo): TencentAuthInfo {
-  return persists.get(persistKeys.tencentAuthInfo, defaultValue || {})
+export function getTencentAuthInfo(
+  defaultValue?: TencentAuthInfo,
+): TencentAuthInfo {
+  return persists.get(
+    persistKeys.tencentAuthInfo,
+    defaultValue || {},
+  ) as TencentAuthInfo
 }
 
 export function setTencentAuthInfo(value: TencentAuthInfo): void {
@@ -79,7 +87,7 @@ export function setTencentAuthInfo(value: TencentAuthInfo): void {
 }
 
 export function getGoogleAPIKey(defaultValue?: string): string {
-  return persists.get(persistKeys.googleAPIKey, defaultValue || '')
+  return persists.get(persistKeys.googleAPIKey, defaultValue || '') as string
 }
 
 export function setGoogleAPIKey(value: string): void {
@@ -139,7 +147,10 @@ export interface ResultWindowOptions {
 }
 
 export function getResultWindowOptions(): ResultWindowOptions {
-  return persists.get(persistKeys.recognitionResultWindowOptions, {})
+  return persists.get(
+    persistKeys.recognitionResultWindowOptions,
+    {},
+  ) as ResultWindowOptions
 }
 
 export function setResultWindowOptions(options: ResultWindowOptions) {

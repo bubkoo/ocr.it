@@ -1764,11 +1764,6 @@ electron-store@^3.1.0:
   dependencies:
     conf "^4.0.0"
 
-electron-tray-indicator@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npm.taobao.org/electron-tray-indicator/download/electron-tray-indicator-0.1.0.tgz#4682228339657026b3d0cd537166d2304da7fc35"
-  integrity sha1-RoIigzllcCaz0M1TcWbSME2n/DU=
-
 electron-updater@^4.0.6:
   version "4.0.6"
   resolved "http://registry.npm.taobao.org/electron-updater/download/electron-updater-4.0.6.tgz#9c4f495ae0e80bf4425e3e1b801c5ed2ab933c2d"
