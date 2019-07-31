@@ -93,8 +93,14 @@ function recognizeImage(path: string) {
 
 export function captureAndRecognize() {
   ipcMain.emit(RESULT_WINDOW_HIDE)
-  capture().then(({ path }) => recognizeImage(path))
+  capture().then(({ path: filepath }) => {
+    if (fs.existsSync(filepath)) {
+      recognizeImage(filepath)
+    }
+  })
 }
+
+export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'bmp', 'png', 'gif']
 
 export function selectFileAndRecognize() {
   ipcMain.emit(RESULT_WINDOW_HIDE)
@@ -103,7 +109,7 @@ export function selectFileAndRecognize() {
       {
         properties: ['openFile', 'createDirectory'],
         filters: [
-          { name: 'Images', extensions: ['jpg', 'jpeg', 'bmp', 'png', 'gif'] },
+          { name: 'Images', extensions: IMAGE_EXTENSIONS },
         ],
       },
       (paths) => {
