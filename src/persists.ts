@@ -1,3 +1,4 @@
+import * as fs from 'fs'
 import ElectronStore from 'electron-store'
 import { config } from './config'
 import { toBase64Sync } from './utils'
@@ -176,6 +177,7 @@ export function setAverageRecognitionTime(value: AverageRecognitionTime) {
 }
 
 export interface HistoryItem extends RecognitionResult {
+  base64?: string
   datetime: number
 }
 
@@ -187,7 +189,7 @@ export function getHistoryRecognitions(raw?: boolean) {
 
   return items.map(item => ({
     ...item,
-    path: toBase64Sync(item.path),
+    base64: toBase64Sync(item.path),
   })).filter(item => item.path)
 }
 
@@ -205,7 +207,7 @@ export function addItemToHistory(data: RecognitionResult) {
     datetime: new Date().getTime(),
   }
   const items = getHistoryRecognitions(true)
-  items.push(item)
+  items.unshift(item)
   setHistoryRecognitions(items)
 }
 
@@ -214,6 +216,9 @@ function delHistoryItem(items: HistoryItem[], item: HistoryItem) {
   items.some((it: HistoryItem, i: number) => {
     if (it.path === item.path) {
       index = i
+      if (fs.existsSync(item.path)) {
+        fs.unlinkSync(item.path)
+      }
       return true
     }
     return false

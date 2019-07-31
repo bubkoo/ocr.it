@@ -36,7 +36,7 @@ function createWindow() {
   window.once('ready-to-show', () => {
     window.show()
     window.focus()
-    app.dock.show()
+    // app.dock.show()
   })
 
   window.on('close', (event) => {
@@ -74,7 +74,10 @@ ipcMain.on(PREFERENCES_WINDOW_SHOW, () => {
   showWindow()
 })
 
-ipcMain.on(PREFERENCES_WINDOW_UPDATE_SIZE, (e: Event, size: { width: number, height: number }) => {
+ipcMain.on(PREFERENCES_WINDOW_UPDATE_SIZE, (
+  e: Event,
+  size: { width: number, height: number },
+) => {
   const { width, height } = size
   window.setSize(width, height)
 })

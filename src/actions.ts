@@ -20,4 +20,6 @@ export const REQUEST_PROGRESS_INDICATOR = 'request-progress-indicator'
 export const RESPONSE_PROGRESS_INDICATOR = 'response-progress-indicator'
 
 export const HISTORY_WINDOW_SHOW = 'hstory-window-show'
+export const HISTORY_WINDOW_FOCUS = 'hstory-window-focus'
+export const HISTORY_WINDOW_BLUR = 'hstory-window-blur'
 export const HISTORY_WINDOW_UPDATE = 'hstory-window-update'

@@ -12,7 +12,7 @@
     "build-main-dev": "cross-env NODE_ENV=development webpack --config ./config/webpack.config.electron.js",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.production.js",
     "build": "yarn run clean && yarn run build-main && yarn run build-renderer",
-    "start": "cross-env NODE_ENV=production electron ./dist/",
+    "start": "cross-env NODE_ENV=production electron ./dist/main.js",
     "start-hot": "cross-env HOT=1 NODE_ENV=development yarn run clean && yarn run build-main-dev && electron ./dist/main.js",
     "postinstall": "yarn run build",
     "dev": "yarn run hot-server --start-hot",

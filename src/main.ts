@@ -3,10 +3,7 @@ import { autoUpdater } from 'electron-updater'
 import { config } from './config'
 import { createTray } from './tray'
 import { SHORTCUTS_CHANGED } from './actions'
-import {
-  captureAndRecognize,
-  showRecognitionResult,
-} from './handlers'
+import { captureAndRecognize, showRecognitionResult } from './handlers'
 import {
   persists,
   persistKeys,
