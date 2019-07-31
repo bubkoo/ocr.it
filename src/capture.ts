@@ -6,7 +6,10 @@ import { screen } from 'electron'
 import { config } from './config'
 import { getStoredValue, persistKeys } from './persists'
 
-function getScreenshotName() {
+export function getFileName(
+  prefix: string = 'screenshot',
+  ext: string = '.png',
+) {
   const date = new Date()
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -16,15 +19,15 @@ function getScreenshotName() {
   const second = date.getSeconds()
   const fix = (d: number) => d < 10 ? `0${d}` : `${d}`
 
-  return `screenshot${year}${fix(month)}${fix(day)}-${fix(hour)}${fix(minute)}${fix(second)}.png`
+  return `${prefix}-${year}${fix(month)}${fix(day)}-${fix(hour)}${fix(minute)}${fix(second)}${ext}`
 }
 
-function getScreenshotPath(name: string) {
+export function getFilePath(filename: string) {
   const tmpdir = path.join(os.tmpdir(), config.appId)
   if (!fs.existsSync(tmpdir)) {
     fs.mkdirSync(tmpdir)
   }
-  return path.join(tmpdir, name)
+  return path.join(tmpdir, filename)
 }
 
 export interface CaptureOptions {
@@ -38,8 +41,8 @@ export async function capture(options: CaptureOptions = {}): Promise<{
   globalRect?: number[],
 }> {
   const { fullscreen, captureWindow } = options
-  const name = getScreenshotName()
-  const path = getScreenshotPath(name)
+  const name = getFileName()
+  const path = getFilePath(name)
   const mute = getStoredValue<boolean>(persistKeys.muteScreenshot)
 
   return fullscreen

@@ -3,8 +3,8 @@ import { ipcMain, systemPreferences, Tray, Menu, nativeImage, shell } from 'elec
 import { config } from './config'
 import { requestIndicator } from './indicator/main'
 import {
-  recognizeImage,
   captureAndRecognize,
+  cacheFileAndRecognize,
   selectFileAndRecognize,
 } from './handlers'
 import {
@@ -174,7 +174,7 @@ module Private {
         const file = files[0]
         const ext = path.extname(file).toLowerCase().substr(1)
         if (['png', 'gif', 'jpeg', 'jpg', 'bmp'].includes(ext)) {
-          recognizeImage(file)
+          cacheFileAndRecognize(file)
         }
       }
     })

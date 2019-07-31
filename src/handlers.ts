@@ -1,5 +1,7 @@
+import * as fs from 'fs'
+import * as path from 'path'
 import { ipcMain, dialog, clipboard, Notification } from 'electron'
-import { capture } from './capture'
+import { capture, getFileName, getFilePath } from './capture'
 import { recognize } from './engines'
 import {
   RECIGNIZE_STARTED,
@@ -29,7 +31,7 @@ function nextRecgnize() {
   }
 }
 
-export function recognizeImage(path: string) {
+function recognizeImage(path: string) {
   if (pending) {
     queue.push(path)
     return
@@ -110,7 +112,16 @@ export function selectFileAndRecognize() {
         }
       },
     )
-  }).then((path: string) => recognizeImage(path))
+  }).then(cacheFileAndRecognize)
+}
+
+export function cacheFileAndRecognize(sourceFile: string) {
+  const prefix = 'file'
+  const ext = path.extname(sourceFile)
+  const filename = getFileName(prefix, ext)
+  const targetFile = getFilePath(filename)
+  fs.copyFileSync(sourceFile, targetFile)
+  return recognizeImage(targetFile)
 }
 
 export function showRecognitionResult() {
