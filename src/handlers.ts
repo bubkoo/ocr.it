@@ -104,6 +104,7 @@ export function captureAndRecognize() {
 export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'bmp', 'png', 'gif']
 
 export function selectFileAndRecognize() {
+  // should show window to make sure `dialog.showOpenDialog` taking effect
   ipcMain.emit(RESULT_WINDOW_SHOW, null, { width: 0, height: 0 })
   new Promise((resolve) => {
     dialog.showOpenDialog(

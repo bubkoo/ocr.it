@@ -32,6 +32,9 @@ export default class Root extends React.Component<Root.Props, Root.State> {
     ipcRenderer.on(RESULT_WINDOW_UPDATE, () => {
       const data = getLastRecognitionResult()
       this.setState({ data }, () => {
+      })
+
+      setTimeout(() => {
         this.measureText(data.result || [])
       })
     })
