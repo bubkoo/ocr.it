@@ -1,5 +1,5 @@
 import * as path from 'path'
-import { ipcMain, systemPreferences, Tray, Menu, nativeImage } from 'electron'
+import { ipcMain, systemPreferences, Tray, Menu, nativeImage, shell } from 'electron'
 import { config } from './config'
 import { requestIndicator } from './indicator/main'
 import {
@@ -111,6 +111,18 @@ module Private {
         accelerator: 'Cmd+,',
         click: () => {
           ipcMain.emit(PREFERENCES_WINDOW_SHOW)
+        },
+      },
+      {
+        label: 'Github...',
+        click: () => {
+          shell.openExternal('https://github.com/bubkoo/ocr.it')
+        },
+      },
+      {
+        label: 'Feedback...',
+        click: () => {
+          shell.openExternal('https://github.com/bubkoo/ocr.it/issues/new')
         },
       },
       { type: 'separator' },
