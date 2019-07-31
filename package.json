@@ -1,6 +1,6 @@
 {
   "name": "ocr.it",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "productName": "OCR",
   "description": "A tool to recognize text from any image.",
   "main": "./dist/main.js",
