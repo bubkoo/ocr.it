@@ -7,6 +7,7 @@ import {
   RECIGNIZE_STARTED,
   RECIGNIZE_FINISHED,
   RESULT_WINDOW_HIDE,
+  RESULT_WINDOW_SHOW,
   RESULT_WINDOW_PREPARE_SHOW,
 } from './actions'
 import {
@@ -103,7 +104,7 @@ export function captureAndRecognize() {
 export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'bmp', 'png', 'gif']
 
 export function selectFileAndRecognize() {
-  ipcMain.emit(RESULT_WINDOW_HIDE)
+  ipcMain.emit(RESULT_WINDOW_SHOW, null, { width: 0, height: 0 })
   new Promise((resolve) => {
     dialog.showOpenDialog(
       {

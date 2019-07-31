@@ -112,8 +112,18 @@ ipcMain.on(RESULT_WINDOW_PREPARE_SHOW, () => {
   window.webContents.send(RESULT_WINDOW_UPDATE)
 })
 
-ipcMain.on(RESULT_WINDOW_SHOW, (e: any, size: { width: number, height: number }) => {
-  updateWindowPosition(size)
+ipcMain.on(RESULT_WINDOW_SHOW, (
+  e: any,
+  size?: { width: number, height: number },
+) => {
+  if (size) {
+    if (size.width === 0 && size.height === 0) {
+      window.setOpacity(0)
+    } else {
+      window.setOpacity(1)
+      updateWindowPosition(size)
+    }
+  }
   showWindow()
 })
 
