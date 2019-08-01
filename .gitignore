@@ -3,6 +3,6 @@
 npm-debug.log
 yarn-error.log
 node_modules
-dist
-build
+/dist
+/build
 coverage

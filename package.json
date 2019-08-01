@@ -21,7 +21,7 @@
   },
   "build": {
     "appId": "com.ocr.it",
-    "productName": "ocr.it",
+    "productName": "OCR.it",
     "copyright": "Copyright © year ${author}",
     "files": [
       "dist/**/*",
