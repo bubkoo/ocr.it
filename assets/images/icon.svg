@@ -1,0 +1,66 @@
+<svg width="138" height="138" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient x1="100%" y1="100%" x2="0%" y2="0%" id="b">
+      <stop stop-color="#3023AE" offset="0%"/>
+      <stop stop-color="#C86DD7" offset="100%"/>
+    </linearGradient>
+    <path d="M48.155.5h41.472c13.753 0 20.628 0 28.032 2.34a29.097 29.097 0 0 1 17.391 17.391c2.34 7.403 2.34 14.28 2.34 28.033v41.472c0 13.754 0 20.629-2.34 28.033a29.092 29.092 0 0 1-17.39 17.39c-7.405 2.341-14.28 2.341-28.033 2.341H48.155c-13.754 0-20.63 0-28.033-2.342a29.092 29.092 0 0 1-17.391-17.39C.391 110.366.391 103.49.391 89.737V48.264c0-13.753 0-20.63 2.34-28.033a29.097 29.097 0 0 1 17.391-17.39C27.525.5 34.401.5 48.155.5" id="a"/>
+    <path d="M258.276 0H313.748l-36.982 36.98H221.294L258.276 0z" id="d"/>
+    <filter x="-1.1%" y="-2.7%" width="102.2%" height="105.4%" filterUnits="objectBoundingBox" id="e">
+      <feGaussianBlur stdDeviation="1" in="SourceAlpha" result="shadowBlurInner1"/>
+      <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+      <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 0" in="shadowInnerInner1"/>
+    </filter>
+    <path d="M36.981 0h55.473L55.472 36.98H0L36.981 0z" id="f"/>
+    <filter x="-1.1%" y="-2.7%" width="102.2%" height="105.4%" filterUnits="objectBoundingBox" id="g">
+      <feGaussianBlur stdDeviation="1" in="SourceAlpha" result="shadowBlurInner1"/>
+      <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+      <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 0" in="shadowInnerInner1"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(-.16)">
+      <mask id="c" fill="#fff">
+        <use xlink:href="#a"/>
+      </mask>
+      <use fill="url(#b)" xlink:href="#a"/>
+      <g style="mix-blend-mode:darken" mask="url(#c)">
+        <g transform="translate(-88.419 105.938)">
+          <use fill="#BBB" xlink:href="#d"/>
+          <use fill="#000" filter="url(#e)" xlink:href="#d"/>
+        </g>
+        <path d="M114.534 105.938H170.006l-36.982 36.98H77.552l36.982-36.98z" fill="#462EB4"/>
+        <path d="M59.21 105.938h55.473L77.7 142.918H22.23l36.982-36.98z" fill="#653DBC"/>
+        <path d="M3.887 105.938H59.36l-36.982 36.98H-33.094l36.981-36.98z" fill="#7D49C3"/>
+        <g transform="translate(-88.419 105.938)">
+          <use fill="#8F51C7" xlink:href="#f"/>
+          <use fill="#000" filter="url(#g)" xlink:href="#f"/>
+        </g>
+        <g>
+          <path d="M151.513 68.959h55.472l-36.981 36.98H114.532l36.981-36.98z" fill="#5032B6"/>
+          <path d="M96.19 68.959H151.662l-36.981 36.98H59.209l36.981-36.98z" fill="#633CBC"/>
+          <path d="M40.867 68.959H96.339l-36.981 36.98H3.885l36.982-36.98z" fill="#7D49C3"/>
+          <path d="M-14.458 68.959H41.014l-36.981 36.98H-51.44l36.981-36.98z" fill="#9A57CB"/>
+        </g>
+        <g>
+          <path d="M133.166 31.98h55.473l-36.982 36.979H96.185l36.981-36.98z" fill="#613BBB"/>
+          <path d="M77.843 31.98H133.315L96.334 68.958H40.862l36.981-36.98z" fill="#7C48C2"/>
+          <path d="M22.52 31.98H77.992L41.011 68.958h-55.472l36.981-36.98z" fill="#9655C9"/>
+          <path d="M-32.803 31.98H22.669l-36.981 36.979h-55.473l36.982-36.98z" fill="#AE61D1"/>
+        </g>
+        <g>
+          <path d="M170.146-5H225.618l-36.981 36.98h-55.473L170.146-5z" fill="#7143C0"/>
+          <path d="M114.823-5H170.295l-36.982 36.98H77.841L114.823-5z" fill="#804AC3"/>
+          <path d="M59.5-5H114.972L77.99 31.98H22.518L59.5-5z" fill="#9B57CB"/>
+          <path d="M4.176-5H59.65L22.667 31.98H-32.805L4.176-5z" fill="#B263D1"/>
+          <path d="M-51.148-5H4.324l-36.982 36.98H-88.13L-51.148-5z" fill="#BBB"/>
+        </g>
+      </g>
+    </g>
+    <text font-family="Times-Roman, Times" font-size="120" fill="#FFF" transform="translate(-1 -3)">
+      <tspan x="33.35" y="114">T</tspan>
+    </text>
+  </g>
+</svg>
