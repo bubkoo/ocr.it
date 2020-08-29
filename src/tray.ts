@@ -1,13 +1,5 @@
 import * as path from 'path'
-import {
-  ipcMain,
-  Tray,
-  Menu,
-  shell,
-  nativeTheme,
-  nativeImage,
-  systemPreferences,
-} from 'electron'
+import { shell, Tray, Menu, ipcMain, nativeTheme, nativeImage } from 'electron'
 import { config } from './config'
 import { requestIndicator } from './indicator/main'
 import {
@@ -241,7 +233,4 @@ ipcMain.on(SERVICE_CONFIG_CHANGED, () => {
   Private.tray.setContextMenu(Private.getContextMenu())
 })
 
-systemPreferences.subscribeNotification(
-  'AppleInterfaceThemeChangedNotification',
-  Private.updateTrayIcon,
-)
+nativeTheme.on('updated', Private.updateTrayIcon)

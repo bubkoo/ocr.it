@@ -18,7 +18,6 @@ function createWindow() {
     transparent: true,
     frame: false,
     webPreferences: {
-      devTools: false,
       nodeIntegration: true,
       enableRemoteModule: true,
     },
@@ -38,7 +37,7 @@ function ensureWindow() {
       resolve()
     } else {
       createWindow()
-      window!.once('ready-to-show', () => resolve())
+      window!.once('show', resolve)
     }
   })
 }
