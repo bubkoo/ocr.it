@@ -24,6 +24,7 @@ import {
   getTencentAuthInfo,
   getGoogleAPIKey,
   getRecognitionEngine,
+  setRecognizeEngine,
 } from './persists'
 
 export function getTray() {
@@ -88,22 +89,32 @@ module Private {
         label: 'Recognition Service',
         submenu: [
           {
+            label: 'OCR Space',
+            type: 'radio',
+            enabled: true,
+            checked: recognitionEngine === 'OCRSpace',
+            click: () => setRecognizeEngine('OCRSpace'),
+          },
+          {
             label: 'Baidu',
             type: 'radio',
             enabled: !!(baiduAuthInfo.appKey && baiduAuthInfo.appSecret),
             checked: recognitionEngine === 'baidu',
+            click: () => setRecognizeEngine('baidu'),
           },
           {
             label: 'Google',
             type: 'radio',
             enabled: !!googleAPIKey,
             checked: recognitionEngine === 'google',
+            click: () => setRecognizeEngine('google'),
           },
           {
             label: 'Tencent',
             type: 'radio',
             enabled: !!(tencentAuthInfo.secretId && tencentAuthInfo.secretKey),
             checked: recognitionEngine === 'tencent',
+            click: () => setRecognizeEngine('tencent'),
           },
         ],
       },

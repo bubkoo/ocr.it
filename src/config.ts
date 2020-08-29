@@ -22,4 +22,5 @@ export const config = {
     secretKey: '',
   },
   googleAPIKey: '',
+  ocrSpaceAPIKey: 'aa8c3d7de088957',
 }

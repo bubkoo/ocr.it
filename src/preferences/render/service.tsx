@@ -4,6 +4,8 @@ import { SERVICE_CONFIG_CHANGED } from '../../actions'
 import { Input } from './input'
 import {
   BaiduAuthInfo,
+  getOCRSpaceAPIKey,
+  setOCRSpaceAPIKey,
   getBaiduAuthInfoRaw,
   setBaiduAuthInfo,
   getGoogleAPIKey,
@@ -16,6 +18,7 @@ import './service.less'
 
 export class Service extends React.Component<Service.Props, Service.State> {
   state = {
+    ocrSpaceAPIKey: getOCRSpaceAPIKey(),
     googleAPIKey: getGoogleAPIKey(),
     baiduAuthInfo: getBaiduAuthInfoRaw(),
     tencentAuthInfo: getTencentAuthInfo(),
@@ -23,6 +26,11 @@ export class Service extends React.Component<Service.Props, Service.State> {
 
   update() {
     ipcRenderer.send(SERVICE_CONFIG_CHANGED)
+  }
+
+  onOCRSpaceAPIKeyCHanged = (value: string) => {
+    setOCRSpaceAPIKey(value)
+    this.update()
   }
 
   onBaiduAuthInfoChanged = (key: string, value: string) => {
@@ -46,9 +54,13 @@ export class Service extends React.Component<Service.Props, Service.State> {
     this.update()
   }
 
+  gotoOCRSpace() {
+    shell.openExternal('https://ocr.space/OCRAPI')
+  }
+
   gotoGoogle = () => {
     shell.openExternal(
-      'https://console.cloud.google.com/apis/api/vision.googleapis.com/',
+      'https://console.cloud.google.com/apis/api/vision.googleapis.com',
     )
   }
 
@@ -63,10 +75,30 @@ export class Service extends React.Component<Service.Props, Service.State> {
   }
 
   render() {
-    const { googleAPIKey, baiduAuthInfo, tencentAuthInfo } = this.state
+    const {
+      ocrSpaceAPIKey,
+      googleAPIKey,
+      baiduAuthInfo,
+      tencentAuthInfo,
+    } = this.state
 
     return (
       <React.Fragment>
+        <div className="service-item">
+          <div className="engine">
+            <span>OCR Space</span>
+            <i onClick={this.gotoOCRSpace}>Get a Free API Key</i>
+          </div>
+          <div className="box">
+            <label>
+              <span>API Key</span>
+              <Input
+                value={ocrSpaceAPIKey}
+                onChange={this.onOCRSpaceAPIKeyCHanged}
+              />
+            </label>
+          </div>
+        </div>
         <div className="service-item">
           <div className="engine">
             <span>Baidu</span>

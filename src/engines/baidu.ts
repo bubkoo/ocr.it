@@ -2,12 +2,11 @@
 // - https://ai.baidu.com/docs#/OCR-API/top
 
 import request from 'request'
-import { toBase64 } from '../utils'
 import { config } from '../config'
+import { toBase64 } from '../utils'
 import { getBaiduAuthInfo } from '../persists'
 
 export async function recognize(imagePath: string): Promise<string[]> {
-
   const auth = await getAccessToken()
   const accessToken = auth.access_token
   const imageData = await toBase64(imagePath)
@@ -28,7 +27,9 @@ export async function recognize(imagePath: string): Promise<string[]> {
           } else {
             const ret = JSON.parse(body)
             if (res.statusCode === 200) {
-              const lines = (ret.words_result || []).map((item: any) => item.words)
+              const lines = (ret.words_result || []).map(
+                (item: any) => item.words,
+              )
               resolve(lines)
             } else {
               reject(`Recognize failed, ${ret.error_description || ret.error}`)
@@ -43,11 +44,11 @@ export async function recognize(imagePath: string): Promise<string[]> {
 }
 
 export async function getAccessToken(): Promise<{
-  expires_in: number,
-  access_token: string,
-  refresh_token: string,
-  session_key: string,
-  session_secret: string,
+  expires_in: number
+  access_token: string
+  refresh_token: string
+  session_key: string
+  session_secret: string
 }> {
   const authInfo = getBaiduAuthInfo()
   return new Promise((resolve, reject) => {

@@ -30,7 +30,7 @@ export default class Root extends React.Component<Root.Props, Root.State> {
   navs = [
     { name: 'General', icon: switcho, width: 240, height: 200 },
     { name: 'Shortcut', icon: command, width: 280, height: 224 },
-    { name: 'Service', icon: chip, width: 500, height: 408 },
+    { name: 'Service', icon: chip, width: 500, height: 488 },
   ]
 
   componentDidMount() {
