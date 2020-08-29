@@ -1,13 +1,17 @@
-html {
-  --tooltip-background-color: rgba(0, 0, 0, 0.75);
-  --tooltip-text-color: #fff;
-  --result-shadow-color: #000;
+@media (prefers-color-scheme: light) {
+  :root {
+    --tooltip-background-color: rgba(0, 0, 0, 0.75);
+    --tooltip-text-color: #fff;
+    --result-shadow-color: #000;
+  }
 }
 
-html[data-theme="dark"] {
-  --tooltip-background-color: rgba(255,255,255,0.75);
-  --tooltip-text-color: #000;
-  --result-shadow-color: #fff;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tooltip-background-color: rgba(255, 255, 255, 0.75);
+    --tooltip-text-color: #000;
+    --result-shadow-color: #fff;
+  }
 }
 
 #test {
@@ -103,7 +107,7 @@ html[data-theme="dark"] {
       transition: all 0.25s ease;
     }
 
-    &.pin.checked svg{
+    &.pin.checked svg {
       transform: rotate(0deg) translate(-1px, 1px);
     }
 
@@ -112,7 +116,7 @@ html[data-theme="dark"] {
       font-size: 20px;
       padding: 1px;
 
-      &:hover{
+      &:hover {
         opacity: 1;
       }
     }

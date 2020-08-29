@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { ipcRenderer, shell } from 'electron'
 import { SERVICE_CONFIG_CHANGED } from '../../actions'
@@ -16,7 +15,6 @@ import {
 import './service.less'
 
 export class Service extends React.Component<Service.Props, Service.State> {
-
   state = {
     googleAPIKey: getGoogleAPIKey(),
     baiduAuthInfo: getBaiduAuthInfoRaw(),
@@ -49,23 +47,23 @@ export class Service extends React.Component<Service.Props, Service.State> {
   }
 
   gotoGoogle = () => {
-    shell.openExternal('https://console.cloud.tencent.com/ai/ocr/general')
+    shell.openExternal(
+      'https://console.cloud.google.com/apis/api/vision.googleapis.com/',
+    )
   }
 
   gotoBaidu = () => {
-    shell.openExternal('https://console.bce.baidu.com/ai/#/ai/ocr/overview/index')
+    shell.openExternal(
+      'https://console.bce.baidu.com/ai/#/ai/ocr/overview/index',
+    )
   }
 
   gotoTencent = () => {
-    shell.openExternal('https://console.cloud.google.com/apis/api/vision.googleapis.com/')
+    shell.openExternal('https://console.cloud.tencent.com/ai/ocr/general')
   }
 
   render() {
-    const {
-      googleAPIKey,
-      baiduAuthInfo,
-      tencentAuthInfo,
-    } = this.state
+    const { googleAPIKey, baiduAuthInfo, tencentAuthInfo } = this.state
 
     return (
       <React.Fragment>
@@ -134,10 +132,10 @@ export class Service extends React.Component<Service.Props, Service.State> {
 }
 
 export module Service {
-  export interface Props { }
+  export interface Props {}
   export interface State {
-    baiduAuthInfo: BaiduAuthInfo,
-    googleAPIKey: string,
-    tencentAuthInfo: TencentAuthInfo,
+    baiduAuthInfo: BaiduAuthInfo
+    googleAPIKey: string
+    tencentAuthInfo: TencentAuthInfo
   }
 }

@@ -1,5 +1,13 @@
 import * as path from 'path'
-import { ipcMain, systemPreferences, Tray, Menu, nativeImage, shell } from 'electron'
+import {
+  ipcMain,
+  Tray,
+  Menu,
+  shell,
+  nativeTheme,
+  nativeImage,
+  systemPreferences,
+} from 'electron'
 import { config } from './config'
 import { requestIndicator } from './indicator/main'
 import {
@@ -85,7 +93,8 @@ module Private {
         },
       },
       {
-        label: 'Recognition Service', submenu: [
+        label: 'Recognition Service',
+        submenu: [
           {
             label: 'Baidu',
             type: 'radio',
@@ -139,9 +148,11 @@ module Private {
 
   export function getTrayIcon() {
     const isWin32 = process.platform === 'win32'
-    const isDarkMode = systemPreferences.isDarkMode()
+    const isDarkMode = nativeTheme.shouldUseDarkColors
     const name = dragOverWithFile ? 'upload' : 'tray'
-    const iconName = `${name}-${isDarkMode ? 'dark' : 'light'}${isWin32 ? '' : '@2x'}.png`
+    const iconName = `${name}-${isDarkMode ? 'dark' : 'light'}${
+      isWin32 ? '' : '@2x'
+    }.png`
     return path.join(__dirname, '../assets/images', iconName)
   }
 
@@ -193,14 +204,11 @@ ipcMain.on(RECIGNIZE_STARTED, (data: any) => {
 
   const tick = () => {
     if (elapsed < totalTime && recognizing) {
-      requestIndicator(100 * elapsed / totalTime)
-      setTimeout(
-        () => {
-          elapsed = new Date().getTime() - startTime.getTime()
-          tick()
-        },
-        16,
-      )
+      requestIndicator((100 * elapsed) / totalTime)
+      setTimeout(() => {
+        elapsed = new Date().getTime() - startTime.getTime()
+        tick()
+      }, 16)
     }
   }
 

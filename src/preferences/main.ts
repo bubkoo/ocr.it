@@ -1,5 +1,5 @@
 import { app, ipcMain, BrowserWindow, Event } from 'electron'
-import { getHtmlPath } from '../utils'
+import { createBrowserWindow } from '../utils'
 import {
   PREFERENCES_WINDOW_SHOW,
   PREFERENCES_WINDOW_BLUR,
@@ -11,19 +11,15 @@ let window: BrowserWindow
 let quiting = false
 
 function createWindow() {
-  window = new BrowserWindow({
+  window = createBrowserWindow('preferences', {
     title: 'Preferences',
-    titleBarStyle: 'hidden',
     width: 240,
     height: 200,
     minimizable: false,
     maximizable: false,
     resizable: false,
     show: false,
-    frame: false,
   })
-
-  window.loadURL(getHtmlPath('preferences'))
 
   window.on('focus', () => {
     window.webContents.send(PREFERENCES_WINDOW_FOCUS)
@@ -36,7 +32,6 @@ function createWindow() {
   window.once('ready-to-show', () => {
     window.show()
     window.focus()
-    // app.dock.show()
   })
 
   window.on('close', (event) => {
@@ -74,10 +69,10 @@ ipcMain.on(PREFERENCES_WINDOW_SHOW, () => {
   showWindow()
 })
 
-ipcMain.on(PREFERENCES_WINDOW_UPDATE_SIZE, (
-  e: Event,
-  size: { width: number, height: number },
-) => {
-  const { width, height } = size
-  window.setSize(width, height)
-})
+ipcMain.on(
+  PREFERENCES_WINDOW_UPDATE_SIZE,
+  (e: Event, size: { width: number; height: number }) => {
+    const { width, height } = size
+    window.setSize(width, height)
+  },
+)

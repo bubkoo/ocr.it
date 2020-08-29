@@ -48,12 +48,13 @@ module Private {
       // https://github.com/MarshallOfSound/electron-devtools-installer
       const installer = require('electron-devtools-installer')
 
-      const extensions = [
-        'REACT_DEVELOPER_TOOLS',
-        'REDUX_DEVTOOLS',
-      ]
+      const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
       const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-      return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload)))
+      return Promise.all(
+        extensions.map((name) =>
+          installer.default(installer[name], forceDownload),
+        ),
+      )
     }
 
     return Promise.resolve([])
@@ -77,8 +78,14 @@ module Private {
       globalShortcut.register(shortcuts.captureScreen, captureAndRecognize)
     }
 
-    if (shortcuts.showRecognitionResult && shortcuts.showRecognitionResult.indexOf('+') > 0) {
-      globalShortcut.register(shortcuts.showRecognitionResult, showRecognitionResult)
+    if (
+      shortcuts.showRecognitionResult &&
+      shortcuts.showRecognitionResult.indexOf('+') > 0
+    ) {
+      globalShortcut.register(
+        shortcuts.showRecognitionResult,
+        showRecognitionResult,
+      )
     }
   }
 

@@ -1,9 +1,13 @@
 @import '../global.less';
 
-html {
-  --split-border-color: #ccc;
+@media (prefers-color-scheme: light) {
+  :root {
+    --split-border-color: #ccc;
+  }
 }
 
-html[data-theme="dark"] {
-  --split-border-color: #505050;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --split-border-color: #505050;
+  }
 }

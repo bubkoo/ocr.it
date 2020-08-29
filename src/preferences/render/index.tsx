@@ -39,7 +39,7 @@ export default class Root extends React.Component<Root.Props, Root.State> {
 
   updateWindowSize(activeTab: Root.ActiveTab = 'General') {
     const map: any = {}
-    this.navs.forEach(item => (map[item.name] = item))
+    this.navs.forEach((item) => (map[item.name] = item))
     const { width, height } = map[activeTab]
     ipcRenderer.send(PREFERENCES_WINDOW_UPDATE_SIZE, { width, height })
   }
@@ -55,23 +55,19 @@ export default class Root extends React.Component<Root.Props, Root.State> {
       <div className="wrap">
         <div className="title">{activeTab}</div>
         <div className="navbar">
-          {
-            this.navs.map(nav => (
-              <button
-                key={nav.name}
-                className={classnames(
-                  'navbar-item',
-                  nav.name.toLowerCase(),
-                  { active: nav.name === activeTab },
-                )}
-                tabIndex={-1}
-                onClick={this.handleNavChange.bind(this, nav.name)}
-              >
-                {nav.icon()}
-                <span className="label">{nav.name}</span>
-              </button>
-            ))
-          }
+          {this.navs.map((nav) => (
+            <button
+              key={nav.name}
+              className={classnames('navbar-item', nav.name.toLowerCase(), {
+                active: nav.name === activeTab,
+              })}
+              tabIndex={-1}
+              onClick={this.handleNavChange.bind(this, nav.name)}
+            >
+              {nav.icon()}
+              <span className="label">{nav.name}</span>
+            </button>
+          ))}
         </div>
         <div className="content">
           {activeTab === 'General' && <General />}
@@ -84,7 +80,7 @@ export default class Root extends React.Component<Root.Props, Root.State> {
 }
 
 export namespace Root {
-  export interface Props { }
+  export interface Props {}
   export type ActiveTab = 'General' | 'Shortcut' | 'Service'
   export interface State {
     activeTab: ActiveTab

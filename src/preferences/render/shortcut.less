@@ -1,15 +1,19 @@
-html {
-  --input-text-color:#212121;
-  --input-bg-color:#fff;
-  --input-recording-bg-color:#ccc;
-  --input-border-color:#c8c8c8;
+@media (prefers-color-scheme: light) {
+  :root {
+    --shortcut-input-text-color: #212121;
+    --shortcut-input-bg-color: #fff;
+    --shortcut-input-recording-bg-color: #ccc;
+    --shortcut-input-border-color: #c8c8c8;
+  }
 }
 
-html[data-theme="dark"] {
-  --input-text-color:#eee;
-  --input-bg-color:#686666;
-  --input-recording-bg-color:#444;
-  --input-border-color:#868585;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shortcut-input-text-color: #eee;
+    --shortcut-input-bg-color: #686666;
+    --shortcut-input-recording-bg-color: #444;
+    --shortcut-input-border-color: #868585;
+  }
 }
 
 .shortcut-item {
@@ -40,9 +44,9 @@ html[data-theme="dark"] {
     border: 1px solid #808080;
     border-radius: 4px;
     outline: none;
-    border: 1px solid var(--input-border-color);
-    background: var(--input-bg-color);
-    color: var(--input-text-color);
+    border: 1px solid var(--shortcut-input-border-color);
+    background: var(--shortcut-input-bg-color);
+    color: var(--shortcut-input-text-color);
 
     &:first-child {
       flex: 1;
@@ -63,7 +67,7 @@ html[data-theme="dark"] {
     }
 
     &.recording {
-      background-color: var(--input-recording-bg-color);
+      background-color: var(--shortcut-input-recording-bg-color);
     }
   }
 }

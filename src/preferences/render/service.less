@@ -1,25 +1,29 @@
-html {
-  --engine-text-color:#808080;
-  --engine-link-color:#fff;
-  --engine-link-bg:#767676;
-  --engine-link-hover-bg:#464646;
-  --box-bg-color: #e2e2e2;
-  --box-border-color: #ddd;
-  --input-text-color:#212121;
-  --input-bg-color:#fff;
-  --input-border-color:#c8c8c8;
+@media (prefers-color-scheme: light) {
+  :root {
+    --engine-text-color: #808080;
+    --engine-link-color: #fff;
+    --engine-link-bg: #767676;
+    --engine-link-hover-bg: #464646;
+    --box-bg-color: #e2e2e2;
+    --box-border-color: #ddd;
+    --service-input-text-color: #212121;
+    --service-input-bg-color: #fff;
+    --service-input-border-color: #c8c8c8;
+  }
 }
 
-html[data-theme="dark"] {
-  --engine-text-color: #ccc;
-  --engine-link-color: #212121;
-  --engine-link-bg:#787878;
-  --engine-link-hover-bg:#eee;
-  --box-bg-color: #333536;
-  --box-border-color: #444;
-  --input-text-color:#eee;
-  --input-bg-color:#686666;
-  --input-border-color:#868585;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --engine-text-color: #ccc;
+    --engine-link-color: #212121;
+    --engine-link-bg: #787878;
+    --engine-link-hover-bg: #eee;
+    --box-bg-color: #333536;
+    --box-border-color: #444;
+    --service-input-text-color: #eee;
+    --service-input-bg-color: #686666;
+    --service-input-border-color: #868585;
+  }
 }
 
 .service-item {
@@ -59,7 +63,7 @@ html[data-theme="dark"] {
   padding: 8px;
   border-radius: 4px;
   background: var(--box-bg-color);
-  border:1px solid var(--box-border-color);
+  border: 1px solid var(--box-border-color);
 
   label {
     font-size: 12px;
@@ -82,9 +86,9 @@ html[data-theme="dark"] {
       height: 24px;
       padding-right: 4px;
       padding-left: 4px;
-      border: 1px solid var(--input-border-color);
-      background: var(--input-bg-color);
-      color: var(--input-text-color);
+      border: 1px solid var(--service-input-border-color);
+      background: var(--service-input-bg-color);
+      color: var(--service-input-text-color);
       border-radius: 2px;
       outline: none;
     }

@@ -3,10 +3,7 @@
 
 import { app, ipcMain, BrowserWindow } from 'electron'
 import { getHtmlPath } from '../utils'
-import {
-  RECIGNIZE_FINISHED,
-  REQUEST_PROGRESS_INDICATOR,
-} from '../actions'
+import { RECIGNIZE_FINISHED, REQUEST_PROGRESS_INDICATOR } from '../actions'
 
 let window: null | BrowserWindow
 
@@ -22,6 +19,8 @@ function createWindow() {
     frame: false,
     webPreferences: {
       devTools: false,
+      nodeIntegration: true,
+      enableRemoteModule: true,
     },
     width: 44,
     height: 44,

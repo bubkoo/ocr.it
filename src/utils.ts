@@ -1,5 +1,43 @@
 import * as fs from 'fs'
 import sizeOf from 'image-size'
+import {
+  nativeTheme,
+  BrowserWindow,
+  BrowserWindowConstructorOptions,
+} from 'electron'
+
+export function createBrowserWindow(
+  pageName: string,
+  options: BrowserWindowConstructorOptions,
+  ignoreTheme?: boolean,
+) {
+  const window = new BrowserWindow({
+    frame: false,
+    titleBarStyle: 'hidden',
+    webPreferences: {
+      backgroundThrottling: false,
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+    ...options,
+  })
+
+  if (ignoreTheme !== true) {
+    const update = () => {
+      window.setBackgroundColor(
+        nativeTheme.shouldUseDarkColors ? '#3d3c3f' : '#ececec',
+      )
+    }
+
+    nativeTheme.on('updated', update)
+
+    update()
+  }
+
+  window.loadURL(getHtmlPath(pageName))
+
+  return window
+}
 
 export async function toBase64(imagePath: string): Promise<string> {
   return new Promise((resolve, reject) => {

@@ -1,9 +1,8 @@
-import { ipcRenderer, remote } from 'electron'
+import { ipcRenderer, nativeTheme } from 'electron'
 import {
   REQUEST_PROGRESS_INDICATOR,
   RESPONSE_PROGRESS_INDICATOR,
 } from '../actions'
-import '../theme'
 import './index.less'
 
 const root = document.getElementById('root')!
@@ -14,7 +13,7 @@ canvas.height = 44
 root.appendChild(canvas)
 
 function sector(startDeg: number, stopDeg: number) {
-  const isDarkMode = remote.systemPreferences.isDarkMode()
+  const isDarkMode = nativeTheme.shouldUseDarkColors
   const themeColor = isDarkMode ? '#ffffff' : '#191919'
   const ctx = canvas.getContext('2d')!
   const centerX = 22

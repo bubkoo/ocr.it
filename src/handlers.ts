@@ -53,11 +53,7 @@ function recognizeImage(path: string) {
       if (options.continuously) {
         const old = getLastRecognitionResult()
         const lastResult = (old || {}).result || []
-        data.result = [
-          ...lastResult,
-          '',
-          ...data.result,
-        ]
+        data.result = [...lastResult, '', ...data.result]
       }
 
       addItemToHistory(data)
@@ -89,7 +85,8 @@ function recognizeImage(path: string) {
         body: err,
         sound: 'Basso',
       }).show()
-    })
+    },
+  )
 }
 
 export function captureAndRecognize() {
@@ -106,21 +103,16 @@ export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'bmp', 'png', 'gif']
 export function selectFileAndRecognize() {
   // should show window to make sure `dialog.showOpenDialog` taking effect
   ipcMain.emit(RESULT_WINDOW_SHOW, null, { width: 0, height: 0 })
-  new Promise((resolve) => {
-    dialog.showOpenDialog(
-      {
-        properties: ['openFile', 'createDirectory'],
-        filters: [
-          { name: 'Images', extensions: IMAGE_EXTENSIONS },
-        ],
-      },
-      (paths) => {
-        if (paths && paths.length) {
-          resolve(paths[0])
-        }
-      },
-    )
-  }).then(cacheFileAndRecognize)
+  dialog
+    .showOpenDialog({
+      properties: ['openFile', 'createDirectory'],
+      filters: [{ name: 'Images', extensions: IMAGE_EXTENSIONS }],
+    })
+    .then(({ filePaths }) => {
+      if (filePaths && filePaths.length) {
+        cacheFileAndRecognize(filePaths[0])
+      }
+    })
 }
 
 export function cacheFileAndRecognize(sourceFile: string) {

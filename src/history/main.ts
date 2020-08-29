@@ -1,5 +1,5 @@
 import { ipcMain, BrowserWindow } from 'electron'
-import { getHtmlPath } from '../utils'
+import { createBrowserWindow } from '../utils'
 import {
   RECIGNIZE_FINISHED,
   HISTORY_WINDOW_SHOW,
@@ -11,15 +11,11 @@ import {
 let window: null | BrowserWindow
 
 function createWindow() {
-  window = new BrowserWindow({
+  window = createBrowserWindow('history', {
     title: 'Recogniztion History',
-    titleBarStyle: 'hidden',
     width: 800,
     height: 480,
-    frame: false,
   })
-
-  window.loadURL(getHtmlPath('history'))
 
   window.on('focus', () => {
     window!.webContents.send(HISTORY_WINDOW_FOCUS)
